@@ -10,7 +10,7 @@ defineProps({
 
 </script>
 <template>
-    <div class="relative w-56 h-72 m-4 rounded-xl bg-gray-400 group overflow-hidden duration-300">
+    <div class="relative h-full rounded-xl bg-gray-400 group overflow-hidden duration-300">
         <img :src="imageUrl" :alt="title" class="w-full h-full object-cover">
         <div
             class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-gray-800/90 flex flex-col justify-between duration-300 p-4">
