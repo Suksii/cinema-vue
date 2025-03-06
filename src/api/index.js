@@ -2,7 +2,7 @@ import axios from "axios";
 const api_key = import.meta.env.VITE_API_KEY;
 
 export const request = axios.create({
-  baseURL: `https://api.themoviedb.org/3/discover/movie`,
+  baseURL: `https://api.themoviedb.org/3`,
     params: {
       api_key: api_key,
     },

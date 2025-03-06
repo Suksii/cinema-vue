@@ -1,8 +1,8 @@
 <script setup>
-import MovieList from '@/components/MovieList.vue';
+import MovieView from './MovieView.vue';
 
 </script>
 
 <template>
-  <MovieList />
+  <MovieView />
 </template>
