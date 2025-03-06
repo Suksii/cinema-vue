@@ -1,7 +1,10 @@
 <script setup>
 import { Icon } from "@iconify/vue";
+import { ref } from "vue";
 
+const isScrollVisible = ref(false);
 const genres = ["Comedy, Sci-Fi, Drama"]
+
 </script>
 
 
@@ -13,8 +16,9 @@ const genres = ["Comedy, Sci-Fi, Drama"]
             <div class="w-full lg:w-5/6 h-2/3 lg:h-full bg-cover lg:bg-right bg-center"
                 style="background-image: url('https://image.tmdb.org/t/p/original/9nhjGaFLKtddDPtPaX5EmKqsWdH.jpg');">
             </div>
-            <div
-                class="absolute shrink-0 bottom-0 lg:right-0 w-full lg:w-2/5 min-w-[500px] h-2/3 lg:h-full bg-gradient-to-t lg:bg-gradient-to-r from-gray-800 lg:from-transparent via-50% lg:via-10% via-black to-transparent lg:to-black overflow-y-auto">
+            <div @mouseenter="isScrollVisible = true" @mouseleave="isScrollVisible = false"
+                class="absolute shrink-0 bottom-0 lg:right-0 w-full lg:w-2/5 min-w-[500px] h-2/3 lg:h-full bg-gradient-to-t lg:bg-gradient-to-r from-gray-800 lg:from-transparent via-50% lg:via-10% via-black to-transparent lg:to-black overflow-y-auto custom-scroll"
+                :class="{ 'custom-scroll-hidden': !isScrollVisible }">
                 <div class="relative w-full h-full text-white py-8 px-4 lg:pl-20">
                     <div class="pb-4">
                         <h1 class="uppercase text-5xl font-[600]">Movie title</h1>
@@ -46,14 +50,21 @@ const genres = ["Comedy, Sci-Fi, Drama"]
                             what lies within.</p>
                     </div>
                     <div class="py-4">
-                        <p class="text-gray-200 text-sm italic uppercase">Description</p>
+                        <p class="text-gray-200 text-sm italic uppercase">Actors</p>
+                        <p class="text-lg">Two highly trained operatives grow close from a distance after being sent to
+                            guard opposite
+                            sides of a mysterious gorge. When an evil below emerges, they must work together to survive
+                            what lies within.</p>
+                    </div>
+                    <div class="py-4">
+                        <p class="text-gray-200 text-sm italic uppercase">Directors</p>
                         <p class="text-lg">Two highly trained operatives grow close from a distance after being sent to
                             guard opposite
                             sides of a mysterious gorge. When an evil below emerges, they must work together to survive
                             what lies within.</p>
                     </div>
                     <button
-                        class="my-4 w-full bg-red-600 py-2 font-semibold tracking-widest uppercase cursor-pointer">Watch
+                        class="my-4 w-full bg-red-600 py-2 font-semibold tracking-widest uppercase cursor-pointer hover:bg-red-800 duration-300">Watch
                         trailer</button>
                 </div>
             </div>
