@@ -55,7 +55,7 @@
 </script>
 <template>
     <div
-        class="w-[80%] mx-auto py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+        class="w-[90%] md:w-[70%] mx-auto py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
         <div class="flex justify-center items-center h-full" v-for="movie of movies" :key="movie.id">
             <MovieCard :title="movie.title" :year="movie.year" :rating="movie.rating" :imageUrl="movie.imageUrl" />
         </div>
