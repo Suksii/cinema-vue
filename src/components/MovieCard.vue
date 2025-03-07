@@ -13,7 +13,7 @@ defineProps({
     <div class="relative h-full rounded-xl bg-gray-400 group overflow-hidden duration-300">
         <img :src="imageUrl" :alt="title" class="w-full h-full object-cover">
         <div
-            class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-gray-800/90 flex flex-col justify-between duration-300 p-4">
+            class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-gray-800/90 flex flex-col justify-between duration-700 p-4">
             <div class="flex flex-col items-center justify-center gap-4 text-white text-2xl font-semibold">
                 <div class="flex flex-col items-center justify-center text-center">
                     <h3 class="text-center">{{ title }}</h3>

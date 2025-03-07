@@ -11,7 +11,6 @@ const genres = ["Comedy, Sci-Fi, Drama"]
 <template>
     <div class="min-h-screen h-full w-full bg-cover flex justify-center items-center relative overflow-hidden"
         style="background-image: url('https://image.tmdb.org/t/p/original/9nhjGaFLKtddDPtPaX5EmKqsWdH.jpg');">
-        <div class="absolute inset-0"></div>
         <div class="relative w-full lg:w-[80%] h-[100vh] lg:h-[75vh] mx-auto shadow-2xl shadow-black">
             <div class="w-full lg:w-5/6 h-2/3 lg:h-full bg-cover lg:bg-right bg-center"
                 style="background-image: url('https://image.tmdb.org/t/p/original/9nhjGaFLKtddDPtPaX5EmKqsWdH.jpg');">
