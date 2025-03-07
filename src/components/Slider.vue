@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import MovieCard from "./MovieCard.vue";
+import { Icon } from "@iconify/vue";
 const movies = [
   {
     id: 1,
@@ -56,7 +57,9 @@ const movies = [
 const moviesInView = ref(3);
 const indexInView = ref(0);
 
-const totalSlides = Math.ceil(movies.length / moviesInView.value);
+const totalSlides = computed(() =>
+  Math.ceil(movies.length / moviesInView.value)
+);
 
 const scrollLeft = () => {
   if (indexInView.value === 0) {
@@ -64,7 +67,6 @@ const scrollLeft = () => {
   } else {
     indexInView.value -= 1;
   }
-  console.log(indexInView.value);
 };
 
 const scrollRight = () => {
@@ -73,7 +75,6 @@ const scrollRight = () => {
   } else {
     indexInView.value += 1;
   }
-  console.log(indexInView.value);
 };
 </script>
 <template>
@@ -81,7 +82,7 @@ const scrollRight = () => {
     <div class="flex gap-4 overflow-x-hidden w-full relative">
       <div
         v-for="movie of movies"
-        class="relative min-w-[300px] duration-300"
+        class="relative w-full duration-300"
         :style="{ transform: `translateX(-${indexInView * 100}%)` }"
       >
         <MovieCard
@@ -93,16 +94,26 @@ const scrollRight = () => {
       </div>
     </div>
     <div
-      class="absolute -left-16 top-1/2 z-50 px-3 py-2 bg-yellow-200"
+      class="absolute -left-16 top-1/2 flex items-center justify-center z-50 h-10 w-10 bg-gray-800 rounded-full cursor-pointer hover:scale-110 duration-300"
       @click="scrollLeft"
     >
-      Left
+      <Icon
+        icon="solar:arrow-left-linear"
+        width="24"
+        height="24"
+        class="text-gray-100"
+      />
     </div>
     <div
-      class="absolute -right-16 top-1/2 z-50 px-3 py-2 bg-yellow-200"
+      class="absolute -right-16 top-1/2 flex items-center justify-center z-50 h-10 w-10 bg-gray-800 rounded-full cursor-pointer hover:scale-110 duration-300"
       @click="scrollRight"
     >
-      Right
+      <Icon
+        icon="solar:arrow-right-linear"
+        width="24"
+        height="24"
+        class="text-gray-100"
+      />
     </div>
   </div>
 </template>

@@ -6,4 +6,5 @@ import Slider from '@/components/Slider.vue';
 
 <template>
   <Slider />
+   <!-- <MovieList /> -->
 </template>

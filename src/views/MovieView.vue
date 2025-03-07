@@ -55,13 +55,7 @@ const genres = ["Comedy, Sci-Fi, Drama"]
                             sides of a mysterious gorge. When an evil below emerges, they must work together to survive
                             what lies within.</p>
                     </div>
-                    <div class="py-4">
-                        <p class="text-gray-200 text-sm italic uppercase">Directors</p>
-                        <p class="text-lg">Two highly trained operatives grow close from a distance after being sent to
-                            guard opposite
-                            sides of a mysterious gorge. When an evil below emerges, they must work together to survive
-                            what lies within.</p>
-                    </div>
+
                     <button
                         class="my-4 w-full bg-red-600 py-2 font-semibold tracking-widest uppercase cursor-pointer hover:bg-red-800 duration-300">Watch
                         trailer</button>
