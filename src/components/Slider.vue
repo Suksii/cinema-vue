@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { Icon } from "@iconify/vue";
 const movies = [
@@ -52,25 +52,48 @@ const movies = [
     rating: 8.6,
     imageUrl: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
   },
+  {
+    id: 8,
+    title: "Room",
+    year: 2021,
+    rating: 8.2,
+    imageUrl: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
+  },
 ];
 
-const moviesInView = ref(3);
+const moviesInView = ref(4);
 const indexInView = ref(0);
+const containerRef = ref(null);
+const containerWidth = ref(0);
 
 const totalSlides = computed(() =>
   Math.ceil(movies.length / moviesInView.value)
 );
 
+const updateWidth = () => {
+  if (containerRef.value) {
+    containerWidth.value = containerRef.value.clientWidth;
+  }
+};
+onMounted(() => {
+  updateWidth();
+  window.addEventListener("resize", updateWidth);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateWidth);
+});
+
 const scrollLeft = () => {
   if (indexInView.value === 0) {
-    indexInView.value = totalSlides - 1;
+    indexInView.value = totalSlides.value - 1;
   } else {
     indexInView.value -= 1;
   }
 };
 
 const scrollRight = () => {
-  if (indexInView.value === totalSlides - 1) {
+  if (indexInView.value === totalSlides.value - 1) {
     indexInView.value = 0;
   } else {
     indexInView.value += 1;
@@ -79,22 +102,32 @@ const scrollRight = () => {
 </script>
 <template>
   <div class="w-[80%] mx-auto py-24 relative">
-    <div class="flex gap-4 overflow-x-hidden w-full relative">
+    <div class="relative overflow-hidden" ref="containerRef">
       <div
-        v-for="movie of movies"
-        class="relative w-full duration-300"
+        class="flex transition-transform duration-300 ease-in-out"
         :style="{ transform: `translateX(-${indexInView * 100}%)` }"
       >
-        <MovieCard
-          :title="movie.title"
-          :year="movie.year"
-          :rating="movie.rating"
-          :imageUrl="movie.imageUrl"
-        />
+        <div
+          v-for="movie in movies"
+          :key="movie.id"
+          class="shrink-0"
+          :style="{
+            width: `${containerWidth / moviesInView}px`,
+            paddingRight: '12px',
+          }"
+        >
+          <MovieCard
+            :title="movie.title"
+            :year="movie.year"
+            :rating="movie.rating"
+            :imageUrl="movie.imageUrl"
+          />
+        </div>
       </div>
     </div>
+
     <div
-      class="absolute -left-16 top-1/2 flex items-center justify-center z-50 h-10 w-10 bg-gray-800 rounded-full cursor-pointer hover:scale-110 duration-300"
+      class="absolute -left-16 top-1/2 -translate-y-1/2 flex items-center justify-center z-50 h-10 w-10 bg-gray-800 rounded-full cursor-pointer hover:scale-110 duration-300"
       @click="scrollLeft"
     >
       <Icon
@@ -104,8 +137,9 @@ const scrollRight = () => {
         class="text-gray-100"
       />
     </div>
+
     <div
-      class="absolute -right-16 top-1/2 flex items-center justify-center z-50 h-10 w-10 bg-gray-800 rounded-full cursor-pointer hover:scale-110 duration-300"
+      class="absolute -right-16 top-1/2 -translate-y-1/2 flex items-center justify-center z-50 h-10 w-10 bg-gray-800 rounded-full cursor-pointer hover:scale-110 duration-300"
       @click="scrollRight"
     >
       <Icon
