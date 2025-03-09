@@ -2,12 +2,12 @@
 import { Icon } from "@iconify/vue";
 
 defineProps({
-    title: String,
-    year: String,
-    rating: Number,
-    imageUrl: String,
-    imageWidth: String
-})
+  title: String,
+  year: String,
+  rating: Number,
+  imageUrl: String,
+  imageWidth: String,
+});
 </script>
 <template>
   <div

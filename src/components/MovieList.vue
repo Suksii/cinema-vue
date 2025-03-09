@@ -3,58 +3,6 @@ import { ref, watchEffect } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { request } from "@/api";
 
-const movies = [
-  {
-    id: 1,
-    title: "Prestige",
-    year: 2024,
-    rating: 8.2,
-    imageUrl: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
-  },
-  {
-    id: 2,
-    title: "Departed",
-    year: 2021,
-    rating: 7.9,
-    imageUrl: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
-  },
-  {
-    id: 3,
-    title: "Home alone",
-    year: 2014,
-    rating: 9.2,
-    imageUrl: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
-  },
-  {
-    id: 4,
-    title: "The revenant",
-    year: 2014,
-    rating: 9.0,
-    imageUrl: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
-  },
-  {
-    id: 5,
-    title: "The goodfather 1",
-    year: 2014,
-    rating: 9.1,
-    imageUrl: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
-  },
-  {
-    id: 6,
-    title: "The goodfather 2",
-    year: 2014,
-    rating: 9.3,
-    imageUrl: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
-  },
-  {
-    id: 7,
-    title: "The goodfather 3",
-    year: 2014,
-    rating: 8.6,
-    imageUrl: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
-  },
-];
-
 const moviesData = ref([]);
 
 watchEffect(async () => {
@@ -80,8 +28,8 @@ watchEffect(async () => {
     >
       <MovieCard
         :title="movie.original_title"
-        :year="movie.release_date"
-        :rating="movie.vote_average"
+        :year="movie.release_date.split('-')[0]"
+        :rating="movie.vote_average.toFixed(1)"
         :imageUrl="movie.poster_path"
         imageWidth="w500"
       />
