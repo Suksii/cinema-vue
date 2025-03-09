@@ -24,7 +24,7 @@ defineProps({
                     <span>{{ rating }}</span>
                 </div>
             </div>
-            <RouterLink to="/movie" class="text-white text-center text-lg">See more</RouterLink>
+            <RouterLink to="/movie" class="text-white text-center text-lg py-2 px-3 w-[180px] mx-auto bg-gray-500/50 rounded-full">See more</RouterLink>
         </div>
     </div>
 </template>
