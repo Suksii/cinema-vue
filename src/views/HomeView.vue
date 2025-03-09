@@ -6,6 +6,7 @@ import { Icon } from "@iconify/vue";
 import { ref, watchEffect } from "vue";
 
 const popularMoviesData = ref([]);
+const topRatedMoviesData = ref([]);
 
 watchEffect(async () => {
   try {
@@ -14,6 +15,17 @@ watchEffect(async () => {
     } = await request.get("movie/popular");
     popularMoviesData.value = results;
     console.log(popularMoviesData.value);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+watchEffect(async () => {
+  try {
+    const {
+      data: { results },
+    } = await request.get("movie/top_rated");
+    topRatedMoviesData.value = results;
   } catch (err) {
     console.error(err);
   }
@@ -28,6 +40,13 @@ watchEffect(async () => {
     </div>
     <div class="py-12">
       <Slider :moviesData="popularMoviesData" />
+    </div>
+    <div class="flex items-center border-l-8 border-gray-700">
+      <h2 class="text-2xl px-4 font-bold">Top Rated Movies</h2>
+      <Icon icon="fe:arrow-right" width="24" height="24" />
+    </div>
+    <div class="py-12">
+      <Slider :moviesData="topRatedMoviesData" />
     </div>
     <div class="flex items-center border-l-8 border-gray-700">
       <h2 class="text-2xl px-4 font-bold">Movies</h2>
