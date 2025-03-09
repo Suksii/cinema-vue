@@ -11,7 +11,6 @@ watchEffect(async () => {
       data: { results },
     } = await request.get("discover/movie");
     moviesData.value = results;
-    console.log(results);
   } catch (err) {
     console.log(err);
   }
@@ -19,7 +18,7 @@ watchEffect(async () => {
 </script>
 <template>
   <div
-    class="w-[90%] md:w-[70%] mx-auto py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8"
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8"
   >
     <div
       class="flex justify-center items-center h-full"
@@ -27,9 +26,9 @@ watchEffect(async () => {
       :key="movie.id"
     >
       <MovieCard
-        :title="movie.original_title"
+        :title="movie.title"
         :year="movie.release_date.split('-')[0]"
-        :rating="movie.vote_average.toFixed(1)"
+        :rating="Number(movie.vote_average.toFixed(1))"
         :imageUrl="movie.poster_path"
         imageWidth="w500"
       />
