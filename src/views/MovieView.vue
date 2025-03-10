@@ -48,6 +48,12 @@ const releaseDate = (date) => {
 const voteAverage = (vote) => {
   return Number(vote.toFixed(1));
 };
+
+const movieDuration = (duration) => {
+  const hours = Math.floor(duration / 60);
+  const minutes = duration % 60;
+  return `${hours}h ${minutes}min`;
+};
 </script>
 
 <template>
@@ -112,7 +118,7 @@ const voteAverage = (vote) => {
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
               <div class="w-1 h-1 bg-white rounded-full shrink-0"></div>
-              <p>{{ movieData.runtime }} minutes</p>
+              <p>{{ movieDuration(movieData.runtime) }}</p>
             </div>
           </div>
           <div class="py-4">
