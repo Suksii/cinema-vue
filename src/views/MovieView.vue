@@ -44,6 +44,10 @@ const releaseDate = (date) => {
   const day = dateArray[2];
   return month + " " + day + ", " + year;
 };
+
+const voteAverage = (vote) => {
+  return Number(vote.toFixed(1));
+};
 </script>
 
 <template>
@@ -86,7 +90,7 @@ const releaseDate = (date) => {
                 height="24"
                 color="yellow"
               />
-              <span>{{ movieData.vote_average }}</span>
+              <p>{{ voteAverage(movieData.vote_average) }}</p>
             </div>
             <div
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
