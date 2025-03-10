@@ -2,6 +2,7 @@
 import { Icon } from "@iconify/vue";
 
 defineProps({
+  id: Number,
   title: String,
   year: String,
   rating: Number,
@@ -9,6 +10,7 @@ defineProps({
   imageWidth: String,
 });
 </script>
+
 <template>
   <div
     class="relative h-full rounded-xl bg-gray-400 group overflow-hidden duration-300"
@@ -34,7 +36,7 @@ defineProps({
         </div>
       </div>
       <RouterLink
-        to="/movie"
+        :to="'/movie/' + id"
         class="text-white text-center text-lg py-2 px-3 w-full mx-auto bg-gray-500/50 rounded-full"
         >See more</RouterLink
       >

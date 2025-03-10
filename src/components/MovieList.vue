@@ -4,12 +4,13 @@ import MovieCard from "./MovieCard.vue";
 import { request } from "@/api";
 
 const moviesData = ref([]);
+const pageNum = ref(1);
 
 watchEffect(async () => {
   try {
     const {
       data: { results },
-    } = await request.get("discover/movie");
+    } = await request.get(`discover/movie?page=${pageNum.value}`);
     moviesData.value = results;
   } catch (err) {
     console.log(err);
@@ -26,6 +27,7 @@ watchEffect(async () => {
       :key="movie.id"
     >
       <MovieCard
+        :id="movie.id"
         :title="movie.title"
         :year="movie.release_date.split('-')[0]"
         :rating="Number(movie.vote_average.toFixed(1))"
@@ -34,4 +36,5 @@ watchEffect(async () => {
       />
     </div>
   </div>
+  <div class="flex items-center gap-4"></div>
 </template>

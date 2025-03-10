@@ -1,30 +1,48 @@
 <script setup>
+import { request } from "@/api";
 import { Icon } from "@iconify/vue";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
+import { useRoute } from "vue-router";
 
 const isScrollVisible = ref(false);
-const genres = ["Comedy, Sci-Fi, Drama"];
+
+const movieData = ref([]);
+const route = useRoute();
+
+const id = route.params.id;
+
+watchEffect(async () => {
+  try {
+    const { data } = await request.get(`movie/${id}`);
+    movieData.value = data;
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 </script>
 
 <template>
   <div
     class="min-h-screen h-full w-full bg-cover flex justify-center items-center relative overflow-hidden"
-    style="
-      background-image: url('https://image.tmdb.org/t/p/original/9nhjGaFLKtddDPtPaX5EmKqsWdH.jpg');
-    "
+    :style="{
+      backgroundImage: `url('https://image.tmdb.org/t/p/original/${movieData.backdrop_path}')`,
+    }"
   >
     <div
       class="relative w-full lg:w-[80%] h-[100vh] lg:h-[75vh] mx-auto shadow-2xl shadow-black"
     >
       <div
         class="w-full lg:w-5/6 h-2/3 lg:h-full bg-cover lg:bg-right bg-center relative"
-        style="
-          background-image: url('https://image.tmdb.org/t/p/original/9nhjGaFLKtddDPtPaX5EmKqsWdH.jpg');
-        "
+        :style="{
+          backgroundImage: `url('https://image.tmdb.org/t/p/original/${movieData.backdrop_path}')`,
+        }"
       >
         <div class="pb-4 absolute left-4 top-4">
-          <h1 class="uppercase text-5xl font-[600] text-gray-200">Movie title</h1>
-          <h3 class="text-xl italic text-gray-300">Tagline</h3>
+          <h1 class="uppercase text-5xl font-[600] text-gray-200">
+            {{ movieData.title }}
+          </h1>
+          <h3 class="text-xl italic text-gray-300">{{ movieData.tagline }}</h3>
         </div>
       </div>
       <div
@@ -44,34 +62,34 @@ const genres = ["Comedy, Sci-Fi, Drama"];
                 height="24"
                 color="yellow"
               />
-              <span>9.2</span>
+              <span>{{ movieData.vote_average }}</span>
             </div>
             <div
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
               <div class="w-1 h-1 bg-white rounded-full shrink-0"></div>
-              <div v-for="genre of genres" :key="genre">{{ genre }}</div>
+              <div v-for="(genre, index) of movieData.genres" :key="genre.id">
+                {{ genre.name }}
+                <span v-if="movieData.genres.length - 1 !== index">,</span>
+              </div>
             </div>
             <div
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
               <div class="w-1 h-1 bg-white rounded-full shrink-0"></div>
-              <p>July 16, 2024</p>
+              <p>{{ movieData.release_date }}</p>
             </div>
             <div
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
               <div class="w-1 h-1 bg-white rounded-full shrink-0"></div>
-              <p>127 minutes</p>
+              <p>{{ movieData.runtime }} minutes</p>
             </div>
           </div>
           <div class="py-4">
             <p class="text-gray-200 text-sm italic uppercase">Description</p>
             <p class="text-lg">
-              Two highly trained operatives grow close from a distance after
-              being sent to guard opposite sides of a mysterious gorge. When an
-              evil below emerges, they must work together to survive what lies
-              within.
+              {{ movieData.overview }}
             </p>
           </div>
           <div class="py-4">

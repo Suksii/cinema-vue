@@ -14,7 +14,6 @@ watchEffect(async () => {
       data: { results },
     } = await request.get("movie/popular");
     popularMoviesData.value = results;
-    console.log(popularMoviesData.value);
   } catch (err) {
     console.error(err);
   }
