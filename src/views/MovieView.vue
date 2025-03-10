@@ -5,8 +5,9 @@ import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 
 const isScrollVisible = ref(false);
-
 const movieData = ref([]);
+const isClicked = ref(false);
+
 const route = useRoute();
 
 const id = route.params.id;
@@ -46,7 +47,7 @@ const releaseDate = (date) => {
 };
 
 const voteAverage = (vote) => {
-  return Number(vote.toFixed(1));
+  return Number(vote).toFixed(1);
 };
 
 const movieDuration = (duration) => {
@@ -76,7 +77,28 @@ const movieDuration = (duration) => {
           <h1 class="uppercase text-5xl font-[600] text-gray-200">
             {{ movieData.title }}
           </h1>
-          <h3 class="text-xl italic text-gray-300">{{ movieData.tagline }}</h3>
+          <h3 v-if="movieData.tagline" class="text-xl italic text-gray-300">
+            {{ movieData.tagline }}
+          </h3>
+        </div>
+
+        <div class="absolute left-4 bottom-4 text-red-500">
+          <Icon
+            v-if="isClicked"
+            icon="solar:heart-bold"
+            width="46"
+            height="46"
+            @click="isClicked = !isClicked"
+            class="cursor-pointer"
+          />
+          <Icon
+            v-if="!isClicked"
+            icon="solar:heart-linear"
+            width="46"
+            height="46"
+            @click="isClicked = !isClicked"
+            class="cursor-pointer"
+          />
         </div>
       </div>
       <div

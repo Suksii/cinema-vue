@@ -28,7 +28,7 @@ defineProps({
       >
         <div class="flex flex-col items-center justify-center text-center">
           <h3 class="text-center">{{ title }}</h3>
-          <p class="text-center">{{ year.split('-')[0] }}</p>
+          <p class="text-center">{{ year.split("-")[0] }}</p>
         </div>
         <div class="flex gap-2 items-center justify-center">
           <Icon icon="ic:baseline-star" width="24" height="24" color="yellow" />

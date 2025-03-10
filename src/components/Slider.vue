@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { Icon } from "@iconify/vue";
 
@@ -8,8 +8,12 @@ const indexInView = ref(0);
 const containerRef = ref(null);
 const containerWidth = ref(0);
 
+const props = defineProps({
+  moviesData: Array,
+});
+
 const totalSlides = computed(() =>
-  Math.ceil(movies.length / moviesInView.value)
+  Math.ceil((props.moviesData?.length || 0) / moviesInView.value)
 );
 
 const updateWidth = () => {
@@ -41,10 +45,6 @@ const scrollRight = () => {
     indexInView.value += 1;
   }
 };
-
-defineProps({
-  moviesData: Array,
-});
 </script>
 <template>
   <div class="relative">

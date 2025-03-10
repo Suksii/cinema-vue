@@ -2,6 +2,7 @@
 import { ref, watchEffect } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { request } from "@/api";
+import { Icon } from "@iconify/vue";
 
 const moviesData = ref([]);
 const pageNum = ref(1);
@@ -16,6 +17,12 @@ watchEffect(async () => {
     console.log(err);
   }
 });
+const prevPage = () => {
+  pageNum.value -= 1;
+};
+const nextPage = () => {
+  pageNum.value += 1;
+};
 </script>
 <template>
   <div
@@ -29,12 +36,50 @@ watchEffect(async () => {
       <MovieCard
         :id="movie.id"
         :title="movie.title"
-        :year="movie.release_date.split('-')[0]"
-        :rating="vote_average"
+        :year="movie.release_date"
+        :rating="movie.vote_average"
         :imageUrl="movie.poster_path"
         imageWidth="w500"
       />
     </div>
   </div>
-  <div class="flex items-center gap-4"></div>
+  <div class="flex justify-center items-center gap-4 py-8">
+    <Icon
+      icon="dashicons:arrow-left"
+      @click="prevPage"
+      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+    />
+    <p
+      v-if="pageNum > 2"
+      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+    >
+      {{ pageNum - 2 }}
+    </p>
+    <p
+      v-if="pageNum > 1"
+      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+    >
+      {{ pageNum - 1 }}
+    </p>
+    <p
+      class="w-10 h-10 bg-gray-900 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full scale-120"
+    >
+      {{ pageNum }}
+    </p>
+    <p
+      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+    >
+      {{ pageNum + 1 }}
+    </p>
+    <p
+      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+    >
+      {{ pageNum + 2 }}
+    </p>
+    <Icon
+      icon="dashicons:arrow-right"
+      @click="nextPage"
+      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+    />
+  </div>
 </template>
