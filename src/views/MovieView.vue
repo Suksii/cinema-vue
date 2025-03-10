@@ -53,7 +53,9 @@ const voteAverage = (vote) => {
 const movieDuration = (duration) => {
   const hours = Math.floor(duration / 60);
   const minutes = duration % 60;
-  return `${hours}h ${minutes}min`;
+  if (hours > 0 && minutes > 0) return `${hours}h ${minutes}min`;
+  else if (hours === 0 && minutes > 0) return `${minutes}min`;
+  else if (hours > 0 && minutes === 0) return `${hours}h`;
 };
 </script>
 
