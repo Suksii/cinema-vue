@@ -1,28 +1,45 @@
 <script setup>
-import { ref, watchEffect } from "vue";
+import { computed, ref, watch, watchEffect } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { request } from "@/api";
 import { Icon } from "@iconify/vue";
 
 const moviesData = ref([]);
 const pageNum = ref(1);
+const totalPages = ref(20);
 
-watchEffect(async () => {
+async function fetchMovies() {
   try {
     const {
-      data: { results },
+      data: { results, total_pages },
     } = await request.get(`discover/movie?page=${pageNum.value}`);
     moviesData.value = results;
+    // totalPages.value = total_pages;
   } catch (err) {
     console.log(err);
   }
-});
+}
+
+watch(pageNum, fetchMovies, { immediate: true });
+
 const prevPage = () => {
-  pageNum.value -= 1;
+  if (pageNum.value !== 1) pageNum.value -= 1;
 };
 const nextPage = () => {
-  pageNum.value += 1;
+  if (pageNum.value !== totalPages.value - 1) pageNum.value += 1;
 };
+
+const pageNumRender = computed(() => {
+  const pages = [];
+
+  const start = Math.max(1, pageNum.value - 2);
+  const end = Math.min(totalPages.value, pageNum.value + 2);
+
+  for (let i = start; i < end; i++) {
+    pages.push(i);
+  }
+  return pages;
+});
 </script>
 <template>
   <div
@@ -46,36 +63,20 @@ const nextPage = () => {
   <div class="flex justify-center items-center gap-4 py-8">
     <Icon
       icon="dashicons:arrow-left"
+      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
       @click="prevPage"
-      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
     />
-    <p
-      v-if="pageNum > 2"
-      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+    <div
+      v-for="page in pageNumRender"
+      class="w-10 h-10 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+      :class="{
+        'bg-gray-700': page !== pageNum,
+        'bg-gray-900 scale-125': page === pageNum,
+      }"
+      @click="pageNum = page"
     >
-      {{ pageNum - 2 }}
-    </p>
-    <p
-      v-if="pageNum > 1"
-      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
-    >
-      {{ pageNum - 1 }}
-    </p>
-    <p
-      class="w-10 h-10 bg-gray-900 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full scale-120"
-    >
-      {{ pageNum }}
-    </p>
-    <p
-      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
-    >
-      {{ pageNum + 1 }}
-    </p>
-    <p
-      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
-    >
-      {{ pageNum + 2 }}
-    </p>
+      {{ page }}
+    </div>
     <Icon
       icon="dashicons:arrow-right"
       @click="nextPage"
