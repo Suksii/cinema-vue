@@ -7,6 +7,7 @@ import { useRoute } from "vue-router";
 const isScrollVisible = ref(false);
 const movieData = ref([]);
 const trailerKey = ref(null);
+const actorsData = ref([]);
 const isClicked = ref(false);
 
 const route = useRoute();
@@ -29,8 +30,19 @@ watchEffect(async () => {
     } = await request.get(`movie/${id}/videos`);
     const trailer = results.find((item) => item.type === "Trailer");
     trailerKey.value = trailer.key;
+  } catch (err) {
+    console.error(err);
+  }
+});
 
-    console.log(trailerKey.value);
+watchEffect(async () => {
+  try {
+    const {
+      data: { crew },
+    } = await request.get(`https://api.themoviedb.org/3/movie/${id}/credits`);
+    actorsData.value = crew.filter(
+      (actor) => actor.known_for_department === "Acting"
+    );
   } catch (err) {
     console.error(err);
   }
@@ -165,19 +177,16 @@ const goToTrailer = (key) => {
             </div>
           </div>
           <div class="py-4">
-            <p class="text-gray-200 text-sm italic uppercase">Description</p>
+            <h3 class="text-gray-200 text-sm italic uppercase">Description</h3>
             <p class="text-lg">
               {{ movieData.overview }}
             </p>
           </div>
           <div class="py-4">
-            <p class="text-gray-200 text-sm italic uppercase">Actors</p>
-            <p class="text-lg">
-              Two highly trained operatives grow close from a distance after
-              being sent to guard opposite sides of a mysterious gorge. When an
-              evil below emerges, they must work together to survive what lies
-              within.
-            </p>
+            <h3 class="text-gray-200 text-sm italic uppercase">Actors</h3>
+            <div class="text-lg" v-for="actor of actorsData">
+              <p class="flex flex-row items-center">{{ actor.name }}</p>
+            </div>
           </div>
 
           <button
