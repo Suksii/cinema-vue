@@ -19,7 +19,31 @@ watchEffect(async () => {
     console.error(err);
   }
 });
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const releaseDate = (date) => {
+  if (!date) return "";
+  const dateArray = date.split("-");
 
+  if (dateArray.length !== 3) return date;
+
+  const year = dateArray[0];
+  const month = months[parseInt(dateArray[1], 10) - 1];
+  const day = dateArray[2];
+  return month + " " + day + ", " + year;
+};
 </script>
 
 <template>
@@ -74,10 +98,11 @@ watchEffect(async () => {
               </div>
             </div>
             <div
+              v-if="movieData.release_date"
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
               <div class="w-1 h-1 bg-white rounded-full shrink-0"></div>
-              <p>{{ movieData.release_date }}</p>
+              <p>{{ releaseDate(movieData.release_date) }}</p>
             </div>
             <div
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
