@@ -6,6 +6,7 @@ import { useRoute } from "vue-router";
 
 const isScrollVisible = ref(false);
 const movieData = ref([]);
+const trailerKey = ref(null);
 const isClicked = ref(false);
 
 const route = useRoute();
@@ -16,6 +17,20 @@ watchEffect(async () => {
   try {
     const { data } = await request.get(`movie/${id}`);
     movieData.value = data;
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+watchEffect(async () => {
+  try {
+    const {
+      data: { results },
+    } = await request.get(`movie/${id}/videos`);
+    const trailer = results.find((item) => item.type === "Trailer");
+    trailerKey.value = trailer.key;
+
+    console.log(trailerKey.value);
   } catch (err) {
     console.error(err);
   }
@@ -56,6 +71,10 @@ const movieDuration = (duration) => {
   if (hours > 0 && minutes > 0) return `${hours}h ${minutes}min`;
   else if (hours === 0 && minutes > 0) return `${minutes}min`;
   else if (hours > 0 && minutes === 0) return `${hours}h`;
+};
+
+const goToTrailer = (key) => {
+  window.open(`https://www.youtube.com/watch?v=${key}`);
 };
 </script>
 
@@ -163,6 +182,7 @@ const movieDuration = (duration) => {
 
           <button
             class="my-4 w-full bg-red-600 py-2 font-semibold tracking-widest uppercase cursor-pointer hover:bg-red-800 duration-300"
+            @click="goToTrailer(trailerKey)"
           >
             Watch trailer
           </button>
