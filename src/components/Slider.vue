@@ -63,6 +63,7 @@ defineProps({
           }"
         >
           <MovieCard
+            :id="movie.id"
             :title="movie.title"
             :year="movie.release_date"
             :rating="movie.vote_average"

@@ -30,7 +30,7 @@ watchEffect(async () => {
         :id="movie.id"
         :title="movie.title"
         :year="movie.release_date.split('-')[0]"
-        :rating="Number(movie.vote_average.toFixed(1))"
+        :rating="vote_average"
         :imageUrl="movie.poster_path"
         imageWidth="w500"
       />
