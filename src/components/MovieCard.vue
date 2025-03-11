@@ -18,7 +18,7 @@ defineProps({
     <img
       :src="'https://image.tmdb.org/t/p/' + imageWidth + '/' + imageUrl"
       :alt="title"
-      class="w-full h-full object-cover"
+      class="w-full h-full object-cover text-center"
     />
     <div
       class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-gray-800/90 flex flex-col justify-between duration-700 p-4"

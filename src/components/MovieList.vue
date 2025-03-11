@@ -12,7 +12,6 @@ const store = useSearchStore();
 
 const searchQuery = computed(() => store.query);
 
-
 async function fetchMovies() {
   try {
     const {
@@ -25,13 +24,28 @@ async function fetchMovies() {
   }
 }
 
+watchEffect(async () => {
+  try {
+    const {
+      data: { results },
+    } = await request.get(`search/movie?page=${pageNum.value}`, {
+      params: {
+        query: searchQuery.value,
+      },
+    });
+    moviesData.value = results;
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 watch(pageNum, fetchMovies, { immediate: true });
 
 const prevPage = () => {
   if (pageNum.value !== 1) pageNum.value -= 1;
 };
 const nextPage = () => {
-  if (pageNum.value !== totalPages.value - 1) pageNum.value += 1;
+  if (pageNum.value !== totalPages.value) pageNum.value += 1;
 };
 
 const pageNumRender = computed(() => {
@@ -40,7 +54,7 @@ const pageNumRender = computed(() => {
   const start = Math.max(1, pageNum.value - 2);
   const end = Math.min(totalPages.value, pageNum.value + 2);
 
-  for (let i = start; i < end; i++) {
+  for (let i = start; i <= end; i++) {
     pages.push(i);
   }
   return pages;
@@ -49,6 +63,7 @@ const pageNumRender = computed(() => {
 <template>
   <div
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8"
+    v-if="moviesData.length > 0"
   >
     <div
       class="flex justify-center items-center h-full"
@@ -65,7 +80,16 @@ const pageNumRender = computed(() => {
       />
     </div>
   </div>
-  <div class="flex justify-center items-center gap-4 py-8">
+  <div
+    v-else
+    class="w-full flex justify-center text-center py-12 text-2xl italic"
+  >
+    No movies shown
+  </div>
+  <div
+    v-if="moviesData.length > 0"
+    class="flex justify-center items-center gap-4 py-8"
+  >
     <Icon
       icon="dashicons:arrow-left"
       class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
