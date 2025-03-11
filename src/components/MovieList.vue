@@ -3,10 +3,15 @@ import { computed, ref, watch, watchEffect } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { request } from "@/api";
 import { Icon } from "@iconify/vue";
+import { useSearchStore } from "@/store/searchStore";
 
 const moviesData = ref([]);
 const pageNum = ref(1);
 const totalPages = ref(20);
+const store = useSearchStore();
+
+const searchQuery = computed(() => store.query);
+
 
 async function fetchMovies() {
   try {
