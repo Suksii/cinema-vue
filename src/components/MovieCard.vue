@@ -27,12 +27,13 @@ defineProps({
         class="flex flex-col items-center justify-center gap-4 text-white text-2xl font-semibold"
       >
         <div class="flex flex-col items-center justify-center text-center">
-          <h3 class="text-center">{{ title }}</h3>
+          <h3 class="text-center line-clamp-3">{{ title }}</h3>
           <p class="text-center">{{ year.split("-")[0] }}</p>
         </div>
         <div class="flex gap-2 items-center justify-center">
           <Icon icon="ic:baseline-star" width="24" height="24" color="yellow" />
-          <span>{{ Number(rating).toFixed(1) }}</span>
+          <span v-if="rating">{{ Number(rating).toFixed(1) }}</span>
+          <span v-else> --</span>
         </div>
       </div>
       <RouterLink

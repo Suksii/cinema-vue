@@ -74,7 +74,10 @@ const releaseDate = (date) => {
 };
 
 const voteAverage = (vote) => {
-  return Number(vote).toFixed(1);
+  if (!vote) return "--";
+  const isInt = vote.toString().includes(".");
+  if (isInt) return Number(vote).toFixed(1);
+  return Number(vote);
 };
 
 const movieDuration = (duration) => {
@@ -101,12 +104,13 @@ const goToTrailer = (key) => {
       class="relative w-full lg:w-[80%] h-[100vh] lg:h-[75vh] mx-auto shadow-2xl shadow-black"
     >
       <div
+        v-if="movieData.backdrop_path"
         class="w-full lg:w-5/6 h-2/3 lg:h-full bg-cover lg:bg-right bg-center relative"
         :style="{
           backgroundImage: `url('https://image.tmdb.org/t/p/original/${movieData.backdrop_path}')`,
         }"
       >
-        <div class="pb-4 absolute left-4 top-4">
+        <div class="w-5/7 pb-4 absolute left-4 top-4">
           <h1 class="uppercase text-5xl font-[600] text-gray-200">
             {{ movieData.title }}
           </h1>
@@ -156,7 +160,7 @@ const goToTrailer = (key) => {
             <div
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
-              <div class="w-1 h-1 bg-white rounded-full shrink-0"></div>
+            <Icon icon="mdi:movie-open" width="20" height="20"/>
               <div v-for="(genre, index) of movieData.genres" :key="genre.id">
                 {{ genre.name }}
                 <span v-if="movieData.genres.length - 1 !== index">,</span>
@@ -166,27 +170,33 @@ const goToTrailer = (key) => {
               v-if="movieData.release_date"
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
-              <div class="w-1 h-1 bg-white rounded-full shrink-0"></div>
+            <Icon icon="ic:baseline-date-range" width="20" height="20" />
               <p>{{ releaseDate(movieData.release_date) }}</p>
             </div>
             <div
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
-              <div class="w-1 h-1 bg-white rounded-full shrink-0"></div>
+              <Icon icon="mingcute:time-duration-line" width="20" height="20" />
               <p>{{ movieDuration(movieData.runtime) }}</p>
             </div>
           </div>
           <div class="py-4">
             <h3 class="text-gray-200 text-sm italic uppercase">Description</h3>
-            <p class="text-lg">
+            <p v-if="movieData.overview" class="text-lg">
               {{ movieData.overview }}
             </p>
+            <p v-else>--</p>
           </div>
           <div class="py-4">
             <h3 class="text-gray-200 text-sm italic uppercase">Actors</h3>
-            <div class="text-lg" v-for="actor of actorsData">
+            <div
+              v-if="actorsData.length > 0"
+              class="text-lg"
+              v-for="actor of actorsData"
+            >
               <p class="flex flex-row items-center">{{ actor.name }}</p>
             </div>
+            <p v-else>--</p>
           </div>
 
           <button

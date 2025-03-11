@@ -32,7 +32,7 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <div class="w-[90%] md:w-[70%] mx-auto py-10">
+  <div class="w-[90%] md:w-[70%] mx-auto pt-22">
     <div class="flex items-center border-l-8 border-gray-700">
       <h2 class="text-2xl px-4 font-bold">Popular Movies</h2>
       <Icon icon="fe:arrow-right" width="24" height="24" />

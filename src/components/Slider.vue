@@ -3,7 +3,7 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { Icon } from "@iconify/vue";
 
-const moviesInView = ref(4);
+const moviesInView = ref(5);
 const indexInView = ref(0);
 const containerRef = ref(null);
 const containerWidth = ref(0);
