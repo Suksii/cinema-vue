@@ -9,7 +9,7 @@ const genresShown = ref(false);
 
 const store = useSearchStore();
 const searchInput = ref("");
-const debouncedInput = useDebounce(searchInput, 1000);
+const debouncedInput = useDebounce(searchInput, 2000);
 
 const updateSearch = () => {
   store.setQuery(debouncedInput.value);

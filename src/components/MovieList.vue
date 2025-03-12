@@ -7,39 +7,31 @@ import { useSearchStore } from "@/store/searchStore";
 
 const moviesData = ref([]);
 const pageNum = ref(1);
-const totalPages = ref(20);
+const totalPages = ref(1);
 const store = useSearchStore();
 
 const searchQuery = computed(() => store.query);
 
 async function fetchMovies() {
   try {
+    const endpoint = searchQuery.value ? "search/movie" : "discover/movie";
+    const params = { page: pageNum.value };
+    if (searchQuery.value) params.query = searchQuery.value;
     const {
       data: { results, total_pages },
-    } = await request.get(`discover/movie?page=${pageNum.value}`);
+    } = await request.get(endpoint, { params });
     moviesData.value = results;
-    // totalPages.value = total_pages;
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-watchEffect(async () => {
-  try {
-    const {
-      data: { results },
-    } = await request.get(`search/movie?page=${pageNum.value}`, {
-      params: {
-        query: searchQuery.value,
-      },
-    });
-    moviesData.value = results;
+    totalPages.value = total_pages;
   } catch (err) {
     console.error(err);
   }
-});
+}
 
-watch(pageNum, fetchMovies, { immediate: true });
+watchEffect(() => {
+  if (searchQuery.value || pageNum.value) {
+    fetchMovies();
+  }
+});
 
 const prevPage = () => {
   if (pageNum.value !== 1) pageNum.value -= 1;
@@ -60,6 +52,7 @@ const pageNumRender = computed(() => {
   return pages;
 });
 </script>
+
 <template>
   <div
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8"
