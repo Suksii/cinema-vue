@@ -33,7 +33,7 @@ watchEffect(async () => {
 
 <template>
   <div class="w-[90%] md:w-[70%] mx-auto pt-22">
-    <div class="flex items-center border-l-8 border-gray-700">
+    <!-- <div class="flex items-center border-l-8 border-gray-700">
       <h2 class="text-2xl px-4 font-bold">Popular Movies</h2>
       <Icon icon="fe:arrow-right" width="24" height="24" />
     </div>
@@ -46,7 +46,7 @@ watchEffect(async () => {
     </div>
     <div class="py-12">
       <Slider :moviesData="topRatedMoviesData" />
-    </div>
+    </div> -->
     <div class="flex items-center border-l-8 border-gray-700">
       <h2 class="text-2xl px-4 font-bold">Movies</h2>
       <Icon icon="fe:arrow-right" width="24" height="24" />

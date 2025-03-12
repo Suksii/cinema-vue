@@ -3,14 +3,16 @@ import { Icon } from "@iconify/vue";
 import { ref } from "vue";
 import GenresModal from "./GenresModal.vue";
 import { useSearchStore } from "@/store/searchStore";
+import { useDebounce } from "@/composables/useDebounce";
 
 const genresShown = ref(false);
 
 const store = useSearchStore();
 const searchInput = ref("");
+const debouncedInput = useDebounce(searchInput, 1000);
 
 const updateSearch = () => {
-  store.setQuery(searchInput.value);
+  store.setQuery(debouncedInput.value);
 };
 </script>
 <template>
@@ -45,7 +47,7 @@ const updateSearch = () => {
       <div class="relative w-full md:w-[300px] mb-4 md:m-0">
         <input
           class="py-1 px-4 bg-gray-800 rounded-full w-full text-gray-200 placeholder:text-gray-400 outline-none focus:bg-gray-700"
-          v-model="searchInput"
+          v-model="debouncedInput"
           @input="updateSearch"
           placeholder="Search for a movie"
         />
