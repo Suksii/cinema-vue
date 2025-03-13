@@ -16,7 +16,10 @@ async function fetchMovies() {
   try {
     const endpoint = searchQuery.value ? "search/movie" : "discover/movie";
     const params = { page: pageNum.value };
-    if (searchQuery.value) params.query = searchQuery.value;
+    if (searchQuery.value) {
+      params.query = searchQuery.value;
+      pageNum.value = 1;
+    }
     const {
       data: { results, total_pages },
     } = await request.get(endpoint, { params });
