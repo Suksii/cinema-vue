@@ -1,19 +1,23 @@
 <script setup>
+import { useFunctionsStore } from "@/store/functionsStore";
 import { Icon } from "@iconify/vue";
 
 defineProps({
   id: Number,
   title: String,
   year: String,
-  rating: Number,
+  rating: Number | String,
   imageUrl: String,
   imageWidth: String,
 });
+
+const { voteAverage } = useFunctionsStore();
 </script>
 
 <template>
   <div
-    class="relative w-full h-full rounded-xl bg-gray-300 group overflow-hidden duration-300" style="box-shadow: 10px 20px 30px rgba(0, 0, 0, 0.5);"
+    class="relative w-full h-full rounded-xl bg-gray-300 group overflow-hidden duration-300"
+    style="box-shadow: 10px 20px 30px rgba(0, 0, 0, 0.5)"
   >
     <img
       :src="'https://image.tmdb.org/t/p/' + imageWidth + '/' + imageUrl"
@@ -32,7 +36,7 @@ defineProps({
         </div>
         <div class="flex gap-2 items-center justify-center">
           <Icon icon="ic:baseline-star" width="24" height="24" color="yellow" />
-          <span v-if="rating">{{ Number(rating).toFixed(1) }}</span>
+          <span v-if="rating">{{ voteAverage(rating) }}</span>
           <span v-else> --</span>
         </div>
       </div>

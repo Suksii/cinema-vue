@@ -1,5 +1,6 @@
 <script setup>
 import { request } from "@/api";
+import { useFunctionsStore } from "@/store/functionsStore";
 import { Icon } from "@iconify/vue";
 import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
@@ -11,6 +12,9 @@ const actorsData = ref([]);
 const isClicked = ref(false);
 
 const route = useRoute();
+const { voteAverage } = useFunctionsStore();
+
+console.log(voteAverage.value);
 
 const id = route.params.id;
 
@@ -71,13 +75,6 @@ const releaseDate = (date) => {
   const month = months[parseInt(dateArray[1], 10) - 1];
   const day = dateArray[2];
   return month + " " + day + ", " + year;
-};
-
-const voteAverage = (vote) => {
-  if (!vote) return "--";
-  const isInt = vote.toString().includes(".");
-  if (isInt) return Number(vote).toFixed(1);
-  return Number(vote);
 };
 
 const movieDuration = (duration) => {
@@ -160,7 +157,7 @@ const goToTrailer = (key) => {
             <div
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
-            <Icon icon="mdi:movie-open" width="20" height="20"/>
+              <Icon icon="mdi:movie-open" width="20" height="20" />
               <div v-for="(genre, index) of movieData.genres" :key="genre.id">
                 {{ genre.name }}
                 <span v-if="movieData.genres.length - 1 !== index">,</span>
@@ -170,7 +167,7 @@ const goToTrailer = (key) => {
               v-if="movieData.release_date"
               class="flex items-center gap-2 bg-gray-700/60 rounded-full px-3 py-1"
             >
-            <Icon icon="ic:baseline-date-range" width="20" height="20" />
+              <Icon icon="ic:baseline-date-range" width="20" height="20" />
               <p>{{ releaseDate(movieData.release_date) }}</p>
             </div>
             <div
