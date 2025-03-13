@@ -26,23 +26,30 @@ watch(debouncedInput, (newQuery) => {
     <div
       class="flex flex-col md:flex-row justify-center items-center gap-10 w-full md:w-fit"
     >
-      <div
-        class="relative flex items-end gap-1 mt-4 md:m-0 text-white hover:text-primary cursor-pointer z-50 duration-200"
-        @click="genresShown = !genresShown"
-      >
-        <p>Genres</p>
-        <span v-if="genresShown">
-          <Icon icon="ri:arrow-up-s-fill" width="20" height="20" />
-        </span>
-        <div
-          v-if="genresShown"
-          class="absolute top-6 left-1/2 -translate-x-1/2 text-white p-4 rounded-md w-max"
+      <div class="flex items-center gap-12 mt-4 md:m-0">
+        <RouterLink to="/"
+          class="text-white hover:text-primary cursor-pointer z-50 duration-200"
         >
-          <GenresModal />
+          Home
+        </RouterLink>
+        <div
+          class="relative flex items-end gap-1 text-white hover:text-primary cursor-pointer z-50 duration-200"
+          @click="genresShown = !genresShown"
+        >
+          <p>Genres</p>
+          <span v-if="genresShown">
+            <Icon icon="ri:arrow-up-s-fill" width="20" height="20" />
+          </span>
+          <div
+            v-if="genresShown"
+            class="absolute top-6 left-1/2 -translate-x-1/2 text-white p-4 rounded-md w-max"
+          >
+            <GenresModal />
+          </div>
+          <span v-else>
+            <Icon icon="ri:arrow-down-s-fill" width="20" height="20" />
+          </span>
         </div>
-        <span v-else>
-          <Icon icon="ri:arrow-down-s-fill" width="20" height="20" />
-        </span>
       </div>
       <div class="relative w-full md:w-[300px] mb-4 md:m-0">
         <input
