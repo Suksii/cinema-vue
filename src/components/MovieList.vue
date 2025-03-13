@@ -69,7 +69,7 @@ const pageNumRender = computed(() => {
 
 <template>
   <div
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8"
+    class="w-[90%] md:w-[70%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8 pt-22"
     v-if="moviesData.length > 0"
   >
     <div

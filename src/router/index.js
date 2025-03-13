@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MovieView from "@/views/MovieView.vue";
+import MovieList from "@/components/MovieList.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,16 @@ const router = createRouter({
       path: "/movie/:id",
       name: "movie",
       component: MovieView,
+    },
+    {
+      path: "/movies/",
+      name: "movies",
+      component: MovieList,
+    },
+    {
+      path: "/movies/genre/:genre",
+      name: "moviesByGenre",
+      component: MovieList,
     },
   ],
 });

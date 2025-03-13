@@ -2,9 +2,14 @@
 import { request } from "@/api";
 import { useSearchByGenreStore } from "@/store/searchStoreByGenre";
 import { ref, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const genresData = ref([]);
 const store = useSearchByGenreStore();
+const route = useRoute();
+const router = useRouter();
+console.log(router);
+const genre = route.params.genre;
 
 watchEffect(async () => {
   try {
@@ -19,6 +24,7 @@ watchEffect(async () => {
 
 const handleClick = (genre) => {
   store.setSelectedGenre(genre);
+  router.push(`/movies/genre/${genre}`);
 };
 </script>
 <template>
