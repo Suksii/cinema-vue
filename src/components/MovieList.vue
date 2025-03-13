@@ -99,15 +99,15 @@ const pageNumRender = computed(() => {
   >
     <Icon
       icon="dashicons:arrow-left"
-      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+      class="w-10 h-10 bg-primary hover:bg-hoverPrimary text-white flex justify-center items-center text-xl cursor-pointer rounded-full"
       @click="prevPage"
     />
     <div
       v-for="page in pageNumRender"
-      class="w-10 h-10 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+      class="w-10 h-10 flex justify-center items-center bg-primary hover:bg-hoverPrimary text-white text-xl cursor-pointer rounded-full"
       :class="{
-        'bg-gray-700': page !== pageNum,
-        'bg-gray-900 scale-125': page === pageNum,
+        'bg-primary': page !== pageNum,
+        'bg-hoverPrimary scale-125': page === pageNum,
       }"
       @click="pageNum = page"
     >
@@ -116,7 +116,8 @@ const pageNumRender = computed(() => {
     <Icon
       icon="dashicons:arrow-right"
       @click="nextPage"
-      class="w-10 h-10 bg-gray-700 flex justify-center items-center text-gray-50 text-xl cursor-pointer rounded-full"
+      class="w-10 h-10 bg-primary hover:bg-hoverPrimary text-white flex justify-center items-center text-xl cursor-pointer rounded-full"
+      :class="{ 'cursor-not-allowed': page === totalPages }"
     />
   </div>
 </template>

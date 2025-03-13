@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #e50914;
+  --color-hoverPrimary: #b20710;
+  --color-secondary: #141414;
+  --color-tertiary: #3b3b3b;
+}
+
 .custom-scroll::-webkit-scrollbar {
   width: 7px;
 }

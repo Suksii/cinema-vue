@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <div
-    class="relative w-full h-full rounded-xl bg-gray-400 group overflow-hidden duration-300"
+    class="relative w-full h-full rounded-xl bg-gray-300 group overflow-hidden duration-300" style="box-shadow: 10px 20px 30px rgba(0, 0, 0, 0.5);"
   >
     <img
       :src="'https://image.tmdb.org/t/p/' + imageWidth + '/' + imageUrl"
@@ -21,7 +21,7 @@ defineProps({
       class="w-full h-full object-cover text-center"
     />
     <div
-      class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-gray-800/90 flex flex-col justify-between duration-700 p-4"
+      class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-secondary/90 flex flex-col justify-between duration-700 p-4"
     >
       <div
         class="flex flex-col items-center justify-center gap-4 text-white text-2xl font-semibold"
@@ -38,7 +38,7 @@ defineProps({
       </div>
       <RouterLink
         :to="'/movie/' + id"
-        class="text-white text-center text-lg py-2 px-3 w-full mx-auto bg-gray-500/50 rounded-full"
+        class="text-white text-center text-lg py-2 px-3 w-full mx-auto bg-primary hover:bg-hoverPrimary shadow-md rounded-full duration-200"
         >See more</RouterLink
       >
     </div>
