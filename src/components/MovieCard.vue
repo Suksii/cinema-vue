@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <div
-    class="relative h-full rounded-xl bg-gray-400 group overflow-hidden duration-300"
+    class="relative w-full h-full rounded-xl bg-gray-400 group overflow-hidden duration-300"
   >
     <img
       :src="'https://image.tmdb.org/t/p/' + imageWidth + '/' + imageUrl"

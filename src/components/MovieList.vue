@@ -3,14 +3,21 @@ import { computed, ref, watch, watchEffect } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { request } from "@/api";
 import { Icon } from "@iconify/vue";
-import { useSearchStore } from "@/store/searchStore";
+import { useSearchStore } from "@/store/searchStoreByName";
+import { useSearchByGenreStore } from "@/store/searchStoreByGenre";
 
 const moviesData = ref([]);
 const pageNum = ref(1);
 const totalPages = ref(1);
-const store = useSearchStore();
+const searchStore = useSearchStore();
+const genreStore = useSearchByGenreStore();
 
-const searchQuery = computed(() => store.query);
+const searchQuery = computed(() => searchStore.query);
+const selectedGenre = computed(() => genreStore.selectedGenre);
+
+watchEffect(() => {
+  console.log(selectedGenre.value);
+});
 
 async function fetchMovies() {
   try {
@@ -19,6 +26,10 @@ async function fetchMovies() {
     if (searchQuery.value) {
       params.query = searchQuery.value;
       pageNum.value = 1;
+    }
+    if (selectedGenre.value) {
+      params.with_genres = selectedGenre.value;
+      console.log(params, selectedGenre.value);
     }
     const {
       data: { results, total_pages },

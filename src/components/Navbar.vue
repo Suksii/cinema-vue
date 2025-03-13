@@ -2,17 +2,17 @@
 import { Icon } from "@iconify/vue";
 import { ref, watch } from "vue";
 import GenresModal from "./GenresModal.vue";
-import { useSearchStore } from "@/store/searchStore";
+import { useSearchStore } from "@/store/searchStoreByName";
 import { useDebounce } from "@/composables/useDebounce";
 
 const genresShown = ref(false);
 
-const store = useSearchStore();
+const searchStore = useSearchStore();
 const searchInput = ref("");
 const debouncedInput = useDebounce(searchInput, 2000);
 
 watch(debouncedInput, (newQuery) => {
-  store.setQuery(newQuery);
+  searchStore.setQuery(newQuery);
 });
 </script>
 <template>
