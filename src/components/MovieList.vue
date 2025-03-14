@@ -5,7 +5,7 @@ import { request } from "@/api";
 import { Icon } from "@iconify/vue";
 import { useSearchStore } from "@/store/searchStoreByName";
 import { useSearchByGenreStore } from "@/store/searchStoreByGenre";
-
+import { useRoute } from "vue-router";
 const moviesData = ref([]);
 const pageNum = ref(1);
 const totalPages = ref(1);
@@ -14,14 +14,17 @@ const genreStore = useSearchByGenreStore();
 
 const searchQuery = computed(() => searchStore.query);
 const selectedGenre = computed(() => genreStore.selectedGenre);
-
-watchEffect(() => {
-  console.log(selectedGenre.value);
-});
+const route = useRoute();
 
 async function fetchMovies() {
   try {
-    const endpoint = searchQuery.value ? "search/movie" : "discover/movie";
+    const endpoint = searchQuery.value
+      ? "search/movie"
+      : route.name === "moviesPopular"
+      ? "/movie/popular"
+      : route.name === "moviesTopRated"
+      ? "/movie/top_rated"
+      : "discover/movie";
     const params = { page: pageNum.value };
     if (searchQuery.value) {
       params.query = searchQuery.value;
@@ -91,7 +94,7 @@ const pageNumRender = computed(() => {
     v-else
     class="w-full flex justify-center text-center py-12 text-2xl italic"
   >
-    No movies shown
+    <p class="text-2xl text-white italic">No movies shown</p>
   </div>
   <div
     v-if="moviesData.length > 0"

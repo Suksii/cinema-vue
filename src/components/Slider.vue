@@ -75,7 +75,7 @@ const scrollRight = () => {
     </div>
 
     <div
-      class="absolute -left-16 top-1/2 -translate-y-1/2 flex items-center justify-center z-50 h-10 w-10 bg-primary hover:bg-hoverPrimary rounded-full cursor-pointer hover:scale-110 duration-300"
+      class="absolute -left-16 top-1/2 -translate-y-1/2 flex items-center justify-center z-40 h-10 w-10 bg-primary hover:bg-hoverPrimary rounded-full cursor-pointer hover:scale-110 duration-300"
       @click="scrollLeft"
     >
       <Icon
@@ -87,7 +87,7 @@ const scrollRight = () => {
     </div>
 
     <div
-      class="absolute -right-16 top-1/2 -translate-y-1/2 flex items-center justify-center z-50 h-10 w-10 bg-primary hover:bg-hoverPrimary rounded-full cursor-pointer hover:scale-110 duration-300"
+      class="absolute -right-16 top-1/2 -translate-y-1/2 flex items-center justify-center z-40 h-10 w-10 bg-primary hover:bg-hoverPrimary rounded-full cursor-pointer hover:scale-110 duration-300"
       @click="scrollRight"
     >
       <Icon

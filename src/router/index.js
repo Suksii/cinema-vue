@@ -22,6 +22,16 @@ const router = createRouter({
       component: MovieList,
     },
     {
+      path: "/movies/popular",
+      name: "moviesPopular",
+      component: MovieList,
+    },
+    {
+      path: "/movies/top-rated",
+      name: "moviesTopRated",
+      component: MovieList,
+    },
+    {
       path: "/movies/genre/:genre",
       name: "moviesByGenre",
       component: MovieList,
