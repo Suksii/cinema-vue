@@ -1,6 +1,6 @@
 <script setup>
 import { request } from "@/api";
-import MovieList from "@/components/MovieList.vue";
+import FooterSection from "@/components/FooterSection.vue";
 import Slider from "@/components/Slider.vue";
 import { Icon } from "@iconify/vue";
 import { ref, watchEffect } from "vue";
@@ -63,12 +63,6 @@ watchEffect(async () => {
     <div class="py-12">
       <Slider :moviesData="topRatedMoviesData" />
     </div>
-    <div class="flex items-center border-l-8 border-primary">
-      <h2 class="text-2xl px-4 font-bold text-white">Movies</h2>
-      <Icon icon="fe:arrow-right" width="24" height="24" class="text-primary" />
-    </div>
-    <div class="py-12">
-      <MovieList />
-    </div>
   </div>
+  <FooterSection />
 </template>
