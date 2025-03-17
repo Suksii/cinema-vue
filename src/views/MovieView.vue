@@ -2,6 +2,7 @@
 import { request } from "@/api";
 import { useFunctionsStore } from "@/store/functionsStore";
 import { Icon } from "@iconify/vue";
+import { data } from "autoprefixer";
 import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 
@@ -42,11 +43,14 @@ watchEffect(async () => {
 watchEffect(async () => {
   try {
     const {
-      data: { crew },
-    } = await request.get(`https://api.themoviedb.org/3/movie/${id}/credits`);
-    actorsData.value = crew.filter(
-      (actor) => actor.known_for_department === "Acting"
-    );
+      data: { cast },
+    } = await request.get(`movie/${id}/credits`);
+    actorsData.value = cast.filter(
+      (actor) =>
+        actor.known_for_department === "Acting" &&
+        !actor.character.includes("(uncredited)") && actor.popularity > 0.04
+      );
+      console.log(actorsData.value.length);
   } catch (err) {
     console.error(err);
   }
@@ -107,6 +111,7 @@ const goToTrailer = (key) => {
           backgroundImage: `url('https://image.tmdb.org/t/p/original/${movieData.backdrop_path}')`,
         }"
       >
+        <div class="absolute inset-0 bg-black/30"></div>
         <div class="w-5/7 pb-4 absolute left-4 top-4">
           <h1 class="uppercase text-5xl font-[600] text-gray-200">
             {{ movieData.title }}
@@ -190,6 +195,7 @@ const goToTrailer = (key) => {
               v-if="actorsData.length > 0"
               class="text-lg"
               v-for="actor of actorsData"
+              :key="actor.id"
             >
               <p class="flex flex-row items-center">{{ actor.name }}</p>
             </div>
