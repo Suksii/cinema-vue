@@ -1,6 +1,7 @@
 <script setup>
 import { request } from "@/api";
 import Slider from "@/components/Slider.vue";
+import Loading from "@/loading/Loading.vue";
 import { Icon } from "@iconify/vue";
 import { ref, watchEffect } from "vue";
 
@@ -54,8 +55,11 @@ watchEffect(async () => {
     </RouterLink>
     <div class="py-12 relative">
       <Slider :moviesData="popularMoviesData" v-if="!loadingPopular" />
-      <div v-else class="absolute top-1/2 left-1/2 -translate-1/2 text-3xl text-white">
-        Loading...
+      <div
+        v-else
+        class="absolute top-1/2 left-1/2 -translate-1/2 text-3xl text-white"
+      >
+        <Loading />
       </div>
     </div>
     <RouterLink
@@ -72,8 +76,11 @@ watchEffect(async () => {
     </RouterLink>
     <div class="py-12 relative">
       <Slider :moviesData="topRatedMoviesData" v-if="!loadingTopRated" />
-      <div v-else class="absolute top-1/2 left-1/2 -translate-1/2 text-3xl text-white">
-        Loading....
+      <div
+        v-else
+        class="absolute top-1/2 left-1/2 -translate-1/2 text-3xl text-white"
+      >
+        <Loading />
       </div>
     </div>
   </div>

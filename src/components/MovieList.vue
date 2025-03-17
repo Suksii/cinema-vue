@@ -6,6 +6,7 @@ import { Icon } from "@iconify/vue";
 import { useSearchStore } from "@/store/searchStoreByName";
 import { useSearchByGenreStore } from "@/store/searchStoreByGenre";
 import { useRoute } from "vue-router";
+import Loading from "@/loading/Loading.vue";
 const moviesData = ref([]);
 const pageNum = ref(1);
 const totalPages = ref(1);
@@ -127,5 +128,10 @@ const pageNumRender = computed(() => {
       :class="{ 'cursor-not-allowed': page === totalPages }"
     />
   </div>
-  <div v-if="loading" class="fixed w-full h-screen flex justify-center items-center bg-black/50 text-5xl text-white">Loading...</div>
+  <div
+    v-if="loading"
+    class="fixed w-full h-screen flex justify-center items-center bg-black/50 text-5xl text-white"
+  >
+    <Loading />
+  </div>
 </template>
