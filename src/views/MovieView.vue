@@ -48,9 +48,10 @@ watchEffect(async () => {
     actorsData.value = cast.filter(
       (actor) =>
         actor.known_for_department === "Acting" &&
-        !actor.character.includes("(uncredited)") && actor.popularity > 0.04
-      );
-      console.log(actorsData.value.length);
+        !actor.character.includes("(uncredited)") &&
+        actor.popularity > 0.04
+    );
+    console.log(actorsData.value.length);
   } catch (err) {
     console.error(err);
   }
@@ -193,11 +194,11 @@ const goToTrailer = (key) => {
             <h3 class="text-gray-200 text-sm italic uppercase">Actors</h3>
             <div
               v-if="actorsData.length > 0"
-              class="text-lg"
+              class="flex text-lg"
               v-for="actor of actorsData"
               :key="actor.id"
             >
-              <p class="flex flex-row items-center">{{ actor.name }}</p>
+              {{ actor.name }}
             </div>
             <p v-else>--</p>
           </div>

@@ -22,6 +22,11 @@ const router = createRouter({
       component: MovieList,
     },
     {
+      path: "/movies/upcoming",
+      name: "moviesUpcoming",
+      component: MovieList,
+    },
+    {
       path: "/movies/popular",
       name: "moviesPopular",
       component: MovieList,

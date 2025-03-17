@@ -7,8 +7,10 @@ import { ref, watchEffect } from "vue";
 
 const popularMoviesData = ref([]);
 const topRatedMoviesData = ref([]);
+const upcomingMoviesData = ref([]);
 const loadingPopular = ref(false);
 const loadingTopRated = ref(false);
+const loadingUpcoming = ref(false);
 
 watchEffect(async () => {
   loadingPopular.value = true;
@@ -37,10 +39,44 @@ watchEffect(async () => {
     loadingTopRated.value = false;
   }
 });
+watchEffect(async () => {
+  loadingTopRated.value = true;
+  try {
+    const {
+      data: { results },
+    } = await request.get("movie/upcoming");
+    upcomingMoviesData.value = results;
+  } catch (err) {
+    console.error(err);
+  } finally {
+    loadingUpcoming.value = false;
+  }
+});
 </script>
 
 <template>
   <div class="w-[90%] md:w-[70%] mx-auto pt-22">
+    <RouterLink
+      to="/movies/upcoming"
+      class="flex items-center w-fit border-l-8 border-primary cursor-pointer group duration-300"
+    >
+      <h2 class="text-2xl px-4 font-bold text-white">Upcoming Movies</h2>
+      <Icon
+        icon="fe:arrow-right"
+        width="24"
+        height="24"
+        class="text-primary group-hover:scale-125 group-hover:translate-x-1 duration-300"
+      />
+    </RouterLink>
+    <div class="py-12 relative">
+      <Slider :moviesData="upcomingMoviesData" v-if="!loadingUpcoming" />
+      <div
+        v-else
+        class="absolute top-1/2 left-1/2 -translate-1/2 text-3xl text-white"
+      >
+        <Loading />
+      </div>
+    </div>
     <RouterLink
       to="/movies/popular"
       class="flex items-center w-fit border-l-8 border-primary cursor-pointer group duration-300"

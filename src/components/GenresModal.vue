@@ -33,7 +33,7 @@ const handleClick = (genre) => {
       v-for="genre in genresData"
       :key="genre.id"
       @click="handleClick(genre.id)"
-      class="text-white px-6 py-2 w-[180px] cursor-pointer hover:bg-tertiary duration-200"
+      class="text-white px-6 py-2 w-[180px] cursor-pointer hover:bg-tertiary hover:text-primary duration-200"
     >
       {{ genre.name }}
     </div>
