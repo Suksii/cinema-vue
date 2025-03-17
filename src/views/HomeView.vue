@@ -3,53 +3,50 @@ import { request } from "@/api";
 import Slider from "@/components/Slider.vue";
 import Loading from "@/loading/Loading.vue";
 import { Icon } from "@iconify/vue";
-import { ref, watchEffect } from "vue";
+import { reactive, ref, watchEffect } from "vue";
 
-const popularMoviesData = ref([]);
-const topRatedMoviesData = ref([]);
-const upcomingMoviesData = ref([]);
-const loadingPopular = ref(false);
-const loadingTopRated = ref(false);
-const loadingUpcoming = ref(false);
+const popularMovies = reactive({ data: [], loading: false });
+const topRatedMovies = reactive({ data: [], loading: false });
+const upcomingMovies = reactive({ data: [], loading: false });
 
 watchEffect(async () => {
-  loadingPopular.value = true;
+  popularMovies.loading = true;
   try {
     const {
       data: { results },
     } = await request.get("movie/popular");
-    popularMoviesData.value = results;
+    popularMovies.data = results;
   } catch (err) {
     console.error(err);
   } finally {
-    loadingPopular.value = false;
+    popularMovies.loading = false;
   }
 });
 
 watchEffect(async () => {
-  loadingTopRated.value = true;
+  topRatedMovies.loading = true;
   try {
     const {
       data: { results },
     } = await request.get("movie/top_rated");
-    topRatedMoviesData.value = results;
+    topRatedMovies.data = results;
   } catch (err) {
     console.error(err);
   } finally {
-    loadingTopRated.value = false;
+    topRatedMovies.loading = false;
   }
 });
 watchEffect(async () => {
-  loadingTopRated.value = true;
+  upcomingMovies.loading = true;
   try {
     const {
       data: { results },
     } = await request.get("movie/upcoming");
-    upcomingMoviesData.value = results;
+    upcomingMovies.data = results;
   } catch (err) {
     console.error(err);
   } finally {
-    loadingUpcoming.value = false;
+    upcomingMovies.loading = false;
   }
 });
 </script>
@@ -69,7 +66,10 @@ watchEffect(async () => {
       />
     </RouterLink>
     <div class="py-12 relative">
-      <Slider :moviesData="upcomingMoviesData" v-if="!loadingUpcoming" />
+      <Slider
+        :moviesData="upcomingMovies.data"
+        v-if="!upcomingMovies.loading"
+      />
       <div
         v-else
         class="absolute top-1/2 left-1/2 -translate-1/2 text-3xl text-white"
@@ -90,7 +90,7 @@ watchEffect(async () => {
       />
     </RouterLink>
     <div class="py-12 relative">
-      <Slider :moviesData="popularMoviesData" v-if="!loadingPopular" />
+      <Slider :moviesData="popularMovies.data" v-if="!popularMovies.loading" />
       <div
         v-else
         class="absolute top-1/2 left-1/2 -translate-1/2 text-3xl text-white"
@@ -111,7 +111,10 @@ watchEffect(async () => {
       />
     </RouterLink>
     <div class="py-12 relative">
-      <Slider :moviesData="topRatedMoviesData" v-if="!loadingTopRated" />
+      <Slider
+        :moviesData="topRatedMovies.data"
+        v-if="!topRatedMovies.loading"
+      />
       <div
         v-else
         class="absolute top-1/2 left-1/2 -translate-1/2 text-3xl text-white"
