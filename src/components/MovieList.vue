@@ -11,12 +11,14 @@ const pageNum = ref(1);
 const totalPages = ref(1);
 const searchStore = useSearchStore();
 const genreStore = useSearchByGenreStore();
+const loading = ref(false);
 
 const searchQuery = computed(() => searchStore.query);
 const selectedGenre = computed(() => genreStore.selectedGenre);
 const route = useRoute();
 
 async function fetchMovies() {
+  loading.value = true;
   try {
     const endpoint = searchQuery.value
       ? "search/movie"
@@ -41,6 +43,8 @@ async function fetchMovies() {
     totalPages.value = total_pages;
   } catch (err) {
     console.error(err);
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -72,7 +76,7 @@ const pageNumRender = computed(() => {
 
 <template>
   <div
-    class="w-[90%] md:w-[70%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8 pt-22"
+    class="relative w-[90%] md:w-[70%] mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8 pt-40 md:pt-22"
     v-if="moviesData.length > 0"
   >
     <div
@@ -123,4 +127,5 @@ const pageNumRender = computed(() => {
       :class="{ 'cursor-not-allowed': page === totalPages }"
     />
   </div>
+  <div v-if="loading" class="fixed w-full h-screen flex justify-center items-center bg-black/50 text-5xl text-white">Loading...</div>
 </template>

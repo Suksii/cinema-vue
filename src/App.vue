@@ -1,5 +1,9 @@
 <script setup>
+import { useRoute } from "vue-router";
+import FooterSection from "./components/FooterSection.vue";
 import Navbar from "./components/Navbar.vue";
+
+const route = useRoute();
 </script>
 
 <template>
@@ -10,6 +14,9 @@ import Navbar from "./components/Navbar.vue";
       <Navbar />
     </div>
     <RouterView />
+  </div>
+  <div v-if="route.name !== 'movie'">
+    <FooterSection />
   </div>
 </template>
 

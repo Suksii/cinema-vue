@@ -4,6 +4,7 @@ import { ref, watch } from "vue";
 import GenresModal from "./GenresModal.vue";
 import { useSearchStore } from "@/store/searchStoreByName";
 import { useDebounce } from "@/composables/useDebounce";
+import { useRoute } from "vue-router";
 
 const genresShown = ref(false);
 
@@ -20,7 +21,7 @@ watch(debouncedInput, (newQuery) => {
     class="bg-secondary w-full min-h-12 flex items-center px-6 justify-between"
   >
     <span
-      class="absolute top-2 left-2 md:static text-primary text-3xl font-bold italic"
+      class="absolute top-2 left-2 md:static text-primary text-3xl tracking-tighter font-bold italic"
       >Movies</span
     >
     <div
