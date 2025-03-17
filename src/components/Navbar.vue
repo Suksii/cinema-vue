@@ -4,15 +4,18 @@ import { ref, watch } from "vue";
 import GenresModal from "./GenresModal.vue";
 import { useSearchStore } from "@/store/searchStoreByName";
 import { useDebounce } from "@/composables/useDebounce";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const genresShown = ref(false);
 
 const searchStore = useSearchStore();
 const searchInput = ref("");
 const debouncedInput = useDebounce(searchInput, 2000);
+const route = useRoute();
+const router = useRouter();
 
 watch(debouncedInput, (newQuery) => {
+  if (route.name !== "movies") router.push("/movies");
   searchStore.setQuery(newQuery);
 });
 </script>
