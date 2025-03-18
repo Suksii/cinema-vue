@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { request } from "@/api";
 import { Icon } from "@iconify/vue";
@@ -13,6 +13,7 @@ const router = useRouter();
 const moviesData = ref([]);
 const totalPages = ref(1);
 const pageNum = ref(route.query.page ? Number(route.query.page) : 1);
+const isExpanded = ref(false);
 const searchStore = useSearchStore();
 const genreStore = useSearchByGenreStore();
 const loading = ref(false);
@@ -87,30 +88,63 @@ const pageNumRender = computed(() => {
 </script>
 
 <template>
-  <div
-    class="relative w-[90%] md:w-[70%] mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8 pt-40 md:pt-22"
-    v-if="moviesData.length > 0"
-  >
-    <div
-      class="flex justify-center items-center h-full"
-      v-for="movie of moviesData"
-      :key="movie.id"
-    >
-      <MovieCard
-        :id="movie.id"
-        :title="movie.title"
-        :year="movie.release_date"
-        :rating="movie.vote_average"
-        :imageUrl="movie.poster_path"
-        imageWidth="w500"
-      />
+  <div class="relative w-[90%] md:w-[70%] mx-auto pt-40 md:pt-22">
+    <div class="w-full bg-secondary flex items-center p-1 mb-12 rounded-md">
+      <div
+        class="flex items-center gap-4 text-white cursor-pointer border-r border-neutral-500 p-2"
+        @click="isExpanded = !isExpanded"
+      >
+        <p>Sort by:</p>
+        <Icon icon="mdi:sort" width="24" height="24" />
+      </div>
+      <div
+        class="flex justify-around items-center mx-auto text-white duration-300"
+        :class="{
+          'w-0 opacity-0': isExpanded === false,
+          'w-[90%] opacity-100': isExpanded === true,
+        }"
+      >
+        <div class="flex items-center gap-2">
+          <p>Title</p>
+          <Icon icon="streamline:arrow-up-1-solid" width="14" height="14" />
+        </div>
+        <div class="flex items-center gap-2">
+          <p>Title</p>
+          <Icon icon="streamline:arrow-down-1-solid" width="14" height="14" />
+        </div>
+        <div class="flex items-center gap-2">
+          <p>Title</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <p>Title</p>
+        </div>
+      </div>
     </div>
-  </div>
-  <div
-    v-else
-    class="w-full flex justify-center text-center py-12 text-2xl italic"
-  >
-    <p class="text-2xl text-white italic">No movies shown</p>
+    <div
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8"
+      v-if="moviesData.length > 0"
+    >
+      <div
+        class="flex justify-center items-center h-full"
+        v-for="movie of moviesData"
+        :key="movie.id"
+      >
+        <MovieCard
+          :id="movie.id"
+          :title="movie.title"
+          :year="movie.release_date"
+          :rating="movie.vote_average"
+          :imageUrl="movie.poster_path"
+          imageWidth="w500"
+        />
+      </div>
+    </div>
+    <div
+      v-else
+      class="w-full flex justify-center text-center py-12 text-2xl italic"
+    >
+      <p class="text-2xl text-white italic">No movies shown</p>
+    </div>
   </div>
   <div
     v-if="moviesData.length > 0"
