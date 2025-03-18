@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, reactive, ref, watch, watchEffect } from "vue";
 import MovieCard from "./MovieCard.vue";
 import { request } from "@/api";
 import { Icon } from "@iconify/vue";
@@ -17,9 +17,29 @@ const isExpanded = ref(false);
 const searchStore = useSearchStore();
 const genreStore = useSearchByGenreStore();
 const loading = ref(false);
+const selectedSort = ref('')
 
 const searchQuery = computed(() => searchStore.query);
 const selectedGenre = computed(() => genreStore.selectedGenre);
+
+const sortOptions = [
+  {
+    name: "Title",
+    id: "title.asc",
+  },
+  {
+    name: "Release Date",
+    id: "primary_release_date.desc",
+  },
+  {
+    name: "Popularity",
+    id: "popularity.desc",
+  },
+  {
+    name: "Vote Count",
+    id: "vote_count.desc",
+  },
+];
 
 async function fetchMovies() {
   loading.value = true;
@@ -31,7 +51,7 @@ async function fetchMovies() {
       : route.name === "moviesTopRated"
       ? "/movie/top_rated"
       : "discover/movie";
-    const params = { page: pageNum.value };
+    const params = { page: pageNum.value, sort_by: selectedSort.value };
     if (searchQuery.value) {
       params.query = searchQuery.value;
       pageNum.value = 1;
@@ -89,44 +109,37 @@ const pageNumRender = computed(() => {
 
 <template>
   <div class="relative w-[90%] md:w-[70%] mx-auto pt-40 md:pt-22">
-    <div class="w-full bg-secondary flex items-center p-1 mb-12 rounded-md h-22 lg:h-12">
+    <div
+      class="w-full bg-secondary flex items-center p-1 mb-12 rounded-md h-22 lg:h-12"
+    >
       <div
-        class="flex items-center gap-4 text-white cursor-pointer p-2"
+        class="flex items-center gap-4 text-white cursor-pointer p-2 z-20"
         @click="isExpanded = !isExpanded"
       >
         <p class="text-nowrap">Sort by</p>
         <Icon icon="mdi:sort" width="24" height="24" />
       </div>
       <div
-        class="grid grid-cols-2 lg:grid-cols-4 gap-2 text-white duration-300"
+        class="grid grid-cols-2 md:grid-cols-4 duration-500"
         :class="{
           'w-0 opacity-0': isExpanded === false,
           'w-[90%] opacity-100': isExpanded === true,
         }"
       >
         <div
-          class="flex justify-center items-center gap-1 md:min-w-32 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
+          v-for="option in sortOptions"
+          class="flex justify-center items-center text-white"
         >
-          <p>Title</p>
-          <Icon icon="solar:arrow-up-bold" width="24" height="24" />
-        </div>
-        <div
-          class="flex justify-center items-center gap-1 md:min-w-32 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
-        >
-          <p>Popularity</p>
-          <Icon icon="solar:arrow-down-bold" width="24" height="24" />
-        </div>
-        <div
-          class="flex justify-center items-center gap-1 md:min-w-32 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
-        >
-          <p class="text-nowrap">Release Date</p>
-          <Icon icon="solar:arrow-down-bold" width="24" height="24" />
-        </div>
-        <div
-          class="flex justify-center items-center gap-1 md:min-w-32 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
-        >
-          <p>Title</p>
-          <Icon icon="solar:arrow-down-bold" width="24" height="24" />
+          <div
+            class="flex justify-center items-center gap-1 md:min-w-40 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
+            @click="
+              selectedSort = option.id;
+              console.log(selectedSort);
+            "
+          >
+            <p class="text-nowrap">{{ option.name }}</p>
+            <Icon icon="solar:arrow-up-bold" width="24" height="24" />
+          </div>
         </div>
       </div>
     </div>
