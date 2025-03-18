@@ -145,8 +145,8 @@ const pageNumRender = computed(() => {
               isAsc = !isAsc;
               console.log(selectedSort, option);
             "
-            class="flex justify-center items-center gap-1 md:min-w-40 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
-            :class="{ 'bg-primary': selectedSort.includes(option.id) }"
+            class="flex justify-center items-center gap-1 min-w-40 text-white hover:bg-primary/80 py-1 px-2 rounded-md cursor-pointer transition-colors"
+            :class="{ 'bg-primary/80': selectedSort.includes(option.id) }"
           >
             <p class="text-nowrap">{{ option.name }}</p>
             <Icon

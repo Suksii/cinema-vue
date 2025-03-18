@@ -25,12 +25,12 @@ const handleClick = (genre) => {
 };
 </script>
 <template>
-  <div class="bg-secondary py-8 grid grid-cols-2 w-fit z-50">
+  <div class="bg-secondary py-8 px-1 gap-1 grid grid-cols-2 w-fit z-50">
     <div
       v-for="genre in genresData"
       :key="genre.id"
       @click="handleClick(genre.id)"
-      class="text-white px-6 py-2 w-[180px] cursor-pointer hover:bg-tertiary hover:text-primary duration-200"
+      class="text-white px-6 py-2 w-[180px] cursor-pointer hover:bg-primary/80 duration-200 rounded-sm"
     >
       {{ genre.name }}
     </div>

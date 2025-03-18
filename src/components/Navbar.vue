@@ -30,21 +30,21 @@ watch(debouncedInput, (newQuery) => {
     <div
       class="flex flex-col md:flex-row justify-center items-center gap-10 w-full md:w-fit"
     >
-      <div class="flex items-center gap-12 mt-4 md:m-0">
+      <div class="flex items-center gap-4 mt-4 md:m-0">
         <RouterLink
           to="/"
-          class="text-white hover:text-primary cursor-pointer z-50 duration-200"
+          class="text-white hover:bg-primary/80 py-1 px-2 min-w-18 text-center rounded-sm cursor-pointer z-50 duration-200"
         >
           Home
         </RouterLink>
         <RouterLink
           to="/movies"
-          class="text-white hover:text-primary cursor-pointer z-50 duration-200"
+          class="text-white hover:bg-primary/80 py-1 px-2 min-w-18 text-center rounded-sm cursor-pointer z-50 duration-200"
         >
           Movies
         </RouterLink>
         <div
-          class="relative flex items-end gap-1 text-white hover:text-primary cursor-pointer z-50 duration-200"
+          class="relative flex justify-center items-end gap-1 text-white hover:bg-primary/80 py-1 px-2 min-w-18 rounded-sm cursor-pointer z-50 duration-200"
           @click="genresShown = !genresShown"
         >
           <p>Genres</p>
