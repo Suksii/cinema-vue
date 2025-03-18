@@ -5,7 +5,7 @@ import { request } from "@/api";
 import { Icon } from "@iconify/vue";
 import { useSearchStore } from "@/store/searchStoreByName";
 import { useSearchByGenreStore } from "@/store/searchStoreByGenre";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Loading from "@/loading/Loading.vue";
 const moviesData = ref([]);
 const pageNum = ref(1);
@@ -17,6 +17,7 @@ const loading = ref(false);
 const searchQuery = computed(() => searchStore.query);
 const selectedGenre = computed(() => genreStore.selectedGenre);
 const route = useRoute();
+const router = useRouter();
 
 async function fetchMovies() {
   loading.value = true;
@@ -57,9 +58,16 @@ watchEffect(() => {
 
 const prevPage = () => {
   if (pageNum.value !== 1) pageNum.value -= 1;
+  router.push({ query: { ...route.query, page: pageNum.value } });
 };
 const nextPage = () => {
   if (pageNum.value !== totalPages.value) pageNum.value += 1;
+  router.push({ query: { ...route.query, page: pageNum.value } });
+};
+
+const goToPage = (selectedPage) => {
+  pageNum.value = selectedPage;
+  router.push({ query: { ...route.query, page: selectedPage } });
 };
 
 const pageNumRender = computed(() => {
@@ -117,7 +125,7 @@ const pageNumRender = computed(() => {
         'bg-primary': page !== pageNum,
         'bg-hoverPrimary scale-125': page === pageNum,
       }"
-      @click="pageNum = page"
+      @click="goToPage(page)"
     >
       {{ page }}
     </div>
