@@ -43,7 +43,7 @@ async function fetchMovies() {
       data: { results, total_pages },
     } = await request.get(endpoint, { params });
     moviesData.value = results;
-    totalPages.value = total_pages;
+    totalPages.value = 500;
   } catch (err) {
     console.error(err);
   } finally {
@@ -118,7 +118,11 @@ const pageNumRender = computed(() => {
   >
     <Icon
       icon="dashicons:arrow-left"
-      class="w-10 h-10 bg-primary hover:bg-hoverPrimary text-white flex justify-center items-center text-xl cursor-pointer rounded-full"
+      class="w-10 h-10 bg-primary hover:bg-hoverPrimary text-white flex justify-center items-center text-xl rounded-full"
+      :class="{
+        'cursor-not-allowed': pageNum === 1,
+        'cursor-pointer': pageNum > 1,
+      }"
       @click="prevPage"
     />
     <div
@@ -136,8 +140,11 @@ const pageNumRender = computed(() => {
     <Icon
       icon="dashicons:arrow-right"
       @click="nextPage"
-      class="w-10 h-10 bg-primary hover:bg-hoverPrimary text-white flex justify-center items-center text-xl cursor-pointer rounded-full"
-      :class="{ 'cursor-not-allowed': page === totalPages }"
+      class="w-10 h-10 bg-primary hover:bg-hoverPrimary text-white flex justify-center items-center text-xl rounded-full"
+      :class="{
+        'cursor-not-allowed': pageNum === totalPages,
+        'cursor-pointer': pageNum < totalPages,
+      }"
     />
   </div>
   <div
