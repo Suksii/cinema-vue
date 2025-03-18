@@ -7,17 +7,18 @@ import { useSearchStore } from "@/store/searchStoreByName";
 import { useSearchByGenreStore } from "@/store/searchStoreByGenre";
 import { useRoute, useRouter } from "vue-router";
 import Loading from "@/loading/Loading.vue";
+const route = useRoute();
+const router = useRouter();
+
 const moviesData = ref([]);
-const pageNum = ref(1);
 const totalPages = ref(1);
+const pageNum = ref(route.query.page ? Number(route.query.page) : 1);
 const searchStore = useSearchStore();
 const genreStore = useSearchByGenreStore();
 const loading = ref(false);
 
 const searchQuery = computed(() => searchStore.query);
 const selectedGenre = computed(() => genreStore.selectedGenre);
-const route = useRoute();
-const router = useRouter();
 
 async function fetchMovies() {
   loading.value = true;
@@ -51,7 +52,7 @@ async function fetchMovies() {
 }
 
 watchEffect(() => {
-  if (searchQuery.value || pageNum.value) {
+  if (searchQuery.value || pageNum.value || selectedGenre.value) {
     fetchMovies();
   }
 });
@@ -66,8 +67,10 @@ const nextPage = () => {
 };
 
 const goToPage = (selectedPage) => {
-  pageNum.value = selectedPage;
-  router.push({ query: { ...route.query, page: selectedPage } });
+  if (selectedPage !== pageNum.value) {
+    pageNum.value = selectedPage;
+    router.push({ query: { ...route.query, page: selectedPage } });
+  }
 };
 
 const pageNumRender = computed(() => {
@@ -120,6 +123,7 @@ const pageNumRender = computed(() => {
     />
     <div
       v-for="page in pageNumRender"
+      :key="page"
       class="w-10 h-10 flex justify-center items-center bg-primary hover:bg-hoverPrimary text-white text-xl cursor-pointer rounded-full"
       :class="{
         'bg-primary': page !== pageNum,
