@@ -89,34 +89,44 @@ const pageNumRender = computed(() => {
 
 <template>
   <div class="relative w-[90%] md:w-[70%] mx-auto pt-40 md:pt-22">
-    <div class="w-full bg-secondary flex items-center p-1 mb-12 rounded-md">
+    <div class="w-full bg-secondary flex items-center p-1 mb-12 rounded-md h-22 lg:h-12">
       <div
-        class="flex items-center gap-4 text-white cursor-pointer border-r border-neutral-500 p-2"
+        class="flex items-center gap-4 text-white cursor-pointer p-2"
         @click="isExpanded = !isExpanded"
       >
-        <p>Sort by:</p>
+        <p class="text-nowrap">Sort by</p>
         <Icon icon="mdi:sort" width="24" height="24" />
       </div>
       <div
-        class="flex justify-around items-center mx-auto text-white duration-300"
+        class="grid grid-cols-2 lg:grid-cols-4 gap-2 text-white duration-300"
         :class="{
           'w-0 opacity-0': isExpanded === false,
           'w-[90%] opacity-100': isExpanded === true,
         }"
       >
-        <div class="flex items-center gap-2">
+        <div
+          class="flex justify-center items-center gap-1 md:min-w-32 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
+        >
           <p>Title</p>
-          <Icon icon="streamline:arrow-up-1-solid" width="14" height="14" />
+          <Icon icon="solar:arrow-up-bold" width="24" height="24" />
         </div>
-        <div class="flex items-center gap-2">
-          <p>Title</p>
-          <Icon icon="streamline:arrow-down-1-solid" width="14" height="14" />
+        <div
+          class="flex justify-center items-center gap-1 md:min-w-32 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
+        >
+          <p>Popularity</p>
+          <Icon icon="solar:arrow-down-bold" width="24" height="24" />
         </div>
-        <div class="flex items-center gap-2">
-          <p>Title</p>
+        <div
+          class="flex justify-center items-center gap-1 md:min-w-32 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
+        >
+          <p class="text-nowrap">Release Date</p>
+          <Icon icon="solar:arrow-down-bold" width="24" height="24" />
         </div>
-        <div class="flex items-center gap-2">
+        <div
+          class="flex justify-center items-center gap-1 md:min-w-32 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
+        >
           <p>Title</p>
+          <Icon icon="solar:arrow-down-bold" width="24" height="24" />
         </div>
       </div>
     </div>
