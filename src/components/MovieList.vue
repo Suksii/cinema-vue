@@ -17,7 +17,8 @@ const isExpanded = ref(false);
 const searchStore = useSearchStore();
 const genreStore = useSearchByGenreStore();
 const loading = ref(false);
-const selectedSort = ref('')
+const selectedSort = ref("");
+const isAsc = ref(false);
 
 const searchQuery = computed(() => searchStore.query);
 const selectedGenre = computed(() => genreStore.selectedGenre);
@@ -25,19 +26,27 @@ const selectedGenre = computed(() => genreStore.selectedGenre);
 const sortOptions = [
   {
     name: "Title",
-    id: "title.asc",
+    asc: "title.asc",
+    desc: "title.desc",
+    id: "title"
   },
   {
     name: "Release Date",
-    id: "primary_release_date.desc",
+    asc: "primary_release_date.asc",
+    desc: "primary_release_date.desc",
+    id: "primary_release_date"
   },
   {
     name: "Popularity",
-    id: "popularity.desc",
+    asc: "popularity.asc",
+    desc: "popularity.desc",
+    id: "popularity"
   },
   {
     name: "Vote Count",
-    id: "vote_count.desc",
+    asc: "vote_count.asc",
+    desc: "vote_count.desc",
+    id: "vote_count"
   },
 ];
 
@@ -131,14 +140,27 @@ const pageNumRender = computed(() => {
           class="flex justify-center items-center text-white"
         >
           <div
-            class="flex justify-center items-center gap-1 md:min-w-40 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
             @click="
-              selectedSort = option.id;
-              console.log(selectedSort);
+              selectedSort = isAsc ? option.asc : option.desc;
+              isAsc = !isAsc;
+              console.log(selectedSort, option);
             "
+            class="flex justify-center items-center gap-1 md:min-w-40 text-white hover:bg-primary py-1 px-2 rounded-md cursor-pointer transition-colors"
+            :class="{ 'bg-primary': selectedSort.includes(option.id) }"
           >
             <p class="text-nowrap">{{ option.name }}</p>
-            <Icon icon="solar:arrow-up-bold" width="24" height="24" />
+            <Icon
+              v-if="selectedSort === option.asc"
+              icon="solar:arrow-up-bold"
+              width="24"
+              height="24"
+            />
+            <Icon
+              v-if="selectedSort === option.desc"
+              icon="solar:arrow-down-bold"
+              width="24"
+              height="24"
+            />
           </div>
         </div>
       </div>

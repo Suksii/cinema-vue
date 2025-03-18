@@ -16,7 +16,7 @@ const { voteAverage } = useFunctionsStore();
 
 <template>
   <div
-    class="relative w-full h-full rounded-xl bg-gray-300 group overflow-hidden duration-300"
+    class="relative w-full h-full min-h-[251px] rounded-xl bg-gray-300 group overflow-hidden duration-300"
     style="box-shadow: 10px 20px 30px rgba(0, 0, 0, 0.5)"
   >
     <img
