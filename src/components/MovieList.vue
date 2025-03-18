@@ -5,7 +5,7 @@ import { request } from "@/api";
 import { Icon } from "@iconify/vue";
 import { useSearchStore } from "@/store/searchStoreByName";
 import { useSearchByGenreStore } from "@/store/searchStoreByGenre";
-import { useRoute, useRouter } from "vue-router";
+import { routeLocationKey, useRoute, useRouter } from "vue-router";
 import Loading from "@/loading/Loading.vue";
 const route = useRoute();
 const router = useRouter();
@@ -28,25 +28,25 @@ const sortOptions = [
     name: "Title",
     asc: "title.asc",
     desc: "title.desc",
-    id: "title"
+    id: "title",
   },
   {
     name: "Release Date",
     asc: "primary_release_date.asc",
     desc: "primary_release_date.desc",
-    id: "primary_release_date"
+    id: "primary_release_date",
   },
   {
     name: "Popularity",
     asc: "popularity.asc",
     desc: "popularity.desc",
-    id: "popularity"
+    id: "popularity",
   },
   {
     name: "Vote Count",
     asc: "vote_count.asc",
     desc: "vote_count.desc",
-    id: "vote_count"
+    id: "vote_count",
   },
 ];
 
@@ -82,7 +82,12 @@ async function fetchMovies() {
 }
 
 watchEffect(() => {
-  if (searchQuery.value || pageNum.value || selectedGenre.value) {
+  if (
+    searchQuery.value ||
+    pageNum.value ||
+    selectedGenre.value ||
+    selectedSort.value
+  ) {
     fetchMovies();
   }
 });
@@ -114,6 +119,14 @@ const pageNumRender = computed(() => {
   }
   return pages;
 });
+
+const handleSort = (option) => {
+  selectedSort.value = isAsc.value ? option.asc : option.desc;
+  isAsc.value = !isAsc.value;
+  if (selectedSort.value)
+    router.push({ query: { ...route.query, sort_by: selectedSort.value } });
+};
+
 </script>
 
 <template>
@@ -137,16 +150,16 @@ const pageNumRender = computed(() => {
       >
         <div
           v-for="option in sortOptions"
+          :key="option.id"
           class="flex justify-center items-center text-white"
         >
           <div
-            @click="
-              selectedSort = isAsc ? option.asc : option.desc;
-              isAsc = !isAsc;
-              console.log(selectedSort, option);
-            "
+            @click="handleSort(option)"
             class="flex justify-center items-center gap-1 min-w-40 text-white hover:bg-primary/80 py-1 px-2 rounded-md cursor-pointer transition-colors"
-            :class="{ 'bg-primary/80': selectedSort.includes(option.id) }"
+            :class="{
+              'bg-primary/80':
+                selectedSort === option.asc || selectedSort === option.desc,
+            }"
           >
             <p class="text-nowrap">{{ option.name }}</p>
             <Icon
