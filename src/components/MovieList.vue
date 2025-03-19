@@ -5,7 +5,7 @@ import { request } from "@/api";
 import { Icon } from "@iconify/vue";
 import { useSearchStore } from "@/store/searchStoreByName";
 import { useSearchByGenreStore } from "@/store/searchStoreByGenre";
-import { routeLocationKey, useRoute, useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Loading from "@/loading/Loading.vue";
 const route = useRoute();
 const router = useRouter();
@@ -17,7 +17,7 @@ const isExpanded = ref(false);
 const searchStore = useSearchStore();
 const genreStore = useSearchByGenreStore();
 const loading = ref(false);
-const selectedSort = ref("");
+const selectedSort = ref(route.query.sort_by || "");
 const isAsc = ref(false);
 
 const searchQuery = computed(() => searchStore.query);
@@ -60,26 +60,30 @@ async function fetchMovies() {
       : route.name === "moviesTopRated"
       ? "/movie/top_rated"
       : "discover/movie";
-    const params = { page: pageNum.value, sort_by: selectedSort.value };
+    const params = { page: pageNum.value };
     if (searchQuery.value) {
       params.query = searchQuery.value;
       pageNum.value = 1;
     }
+    if (selectedSort.value) {
+      params.sort_by = selectedSort.value;
+    }
     if (selectedGenre.value) {
       params.with_genres = selectedGenre.value;
-      console.log(params, selectedGenre.value);
     }
     const {
       data: { results, total_pages },
     } = await request.get(endpoint, { params });
     moviesData.value = results;
-    totalPages.value = 500;
+    totalPages.value = total_pages;
   } catch (err) {
     console.error(err);
   } finally {
     loading.value = false;
   }
 }
+
+console.log(route.query);
 
 watchEffect(() => {
   if (
@@ -121,12 +125,17 @@ const pageNumRender = computed(() => {
 });
 
 const handleSort = (option) => {
-  selectedSort.value = isAsc.value ? option.asc : option.desc;
   isAsc.value = !isAsc.value;
-  if (selectedSort.value)
-    router.push({ query: { ...route.query, sort_by: selectedSort.value } });
+  selectedSort.value = isAsc.value ? option.asc : option.desc;
+  pageNum.value = 1;
+  router.push({
+    query: {
+      ...route.query,
+      page: pageNum.value,
+      sort_by: selectedSort.value,
+    },
+  });
 };
-
 </script>
 
 <template>
@@ -144,8 +153,8 @@ const handleSort = (option) => {
       <div
         class="grid grid-cols-2 md:grid-cols-4 duration-500"
         :class="{
-          'w-0 opacity-0': isExpanded === false,
-          'w-[90%] opacity-100': isExpanded === true,
+          'w-0 opacity-0': !isExpanded,
+          'w-[90%] opacity-100': isExpanded,
         }"
       >
         <div
