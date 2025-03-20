@@ -3,51 +3,30 @@ import { request } from "@/api";
 import Slider from "@/components/Slider.vue";
 import Loading from "@/loading/Loading.vue";
 import { Icon } from "@iconify/vue";
-import { reactive, ref, watchEffect } from "vue";
+import { onMounted, reactive } from "vue";
 
 const popularMovies = reactive({ data: [], loading: false });
 const topRatedMovies = reactive({ data: [], loading: false });
 const upcomingMovies = reactive({ data: [], loading: false });
 
-watchEffect(async () => {
-  popularMovies.loading = true;
+async function fetchMovies(moviesData, endpoint) {
+  moviesData.loading = true;
   try {
     const {
       data: { results },
-    } = await request.get("movie/popular");
-    popularMovies.data = results;
+    } = await request.get(endpoint);
+    moviesData.data = results;
   } catch (err) {
     console.error(err);
   } finally {
-    popularMovies.loading = false;
+    moviesData.loading = false;
   }
-});
+}
 
-watchEffect(async () => {
-  topRatedMovies.loading = true;
-  try {
-    const {
-      data: { results },
-    } = await request.get("movie/top_rated");
-    topRatedMovies.data = results;
-  } catch (err) {
-    console.error(err);
-  } finally {
-    topRatedMovies.loading = false;
-  }
-});
-watchEffect(async () => {
-  upcomingMovies.loading = true;
-  try {
-    const {
-      data: { results },
-    } = await request.get("movie/upcoming");
-    upcomingMovies.data = results;
-  } catch (err) {
-    console.error(err);
-  } finally {
-    upcomingMovies.loading = false;
-  }
+onMounted(() => {
+  fetchMovies(popularMovies, "movie/popular");
+  fetchMovies(topRatedMovies, "movie/top_rated");
+  fetchMovies(upcomingMovies, "movie/upcoming");
 });
 </script>
 
