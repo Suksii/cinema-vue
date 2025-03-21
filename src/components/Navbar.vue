@@ -57,15 +57,18 @@ watch(debouncedInput, (newQuery) => {
           <span v-if="genresShown">
             <Icon icon="ri:arrow-up-s-fill" width="20" height="20" />
           </span>
-          <div
-            v-if="genresShown"
-            class="absolute top-6 left-1/2 -translate-x-1/2 text-white p-4 rounded-md w-max"
-          >
-            <GenresModal />
-          </div>
           <span v-else>
             <Icon icon="ri:arrow-down-s-fill" width="20" height="20" />
           </span>
+          <div
+            class="absolute top-6 left-1/2 -translate-x-1/2 text-white p-4 rounded-md w-max duration-300"
+            :class="{
+              'opacity-0 -translate-full': !genresShown,
+              'opacity-100': genresShown,
+            }"
+          >
+            <GenresModal />
+          </div>
         </div>
       </div>
       <div class="relative w-full md:w-[300px] mb-4 md:m-0">
