@@ -7,6 +7,7 @@ import { useSearchStore } from "@/store/searchStoreByName";
 import { useSearchByGenreStore } from "@/store/searchStoreByGenre";
 import { useRoute, useRouter } from "vue-router";
 import Loading from "@/loading/Loading.vue";
+import Pagination from "./Pagination.vue";
 const route = useRoute();
 const router = useRouter();
 
@@ -83,8 +84,6 @@ async function fetchMovies() {
   }
 }
 
-console.log(route.query);
-
 watchEffect(() => {
   if (
     searchQuery.value ||
@@ -94,34 +93,6 @@ watchEffect(() => {
   ) {
     fetchMovies();
   }
-});
-
-const prevPage = () => {
-  if (pageNum.value !== 1) pageNum.value -= 1;
-  router.push({ query: { ...route.query, page: pageNum.value } });
-};
-const nextPage = () => {
-  if (pageNum.value !== totalPages.value) pageNum.value += 1;
-  router.push({ query: { ...route.query, page: pageNum.value } });
-};
-
-const goToPage = (selectedPage) => {
-  if (selectedPage !== pageNum.value) {
-    pageNum.value = selectedPage;
-    router.push({ query: { ...route.query, page: selectedPage } });
-  }
-};
-
-const pageNumRender = computed(() => {
-  const pages = [];
-
-  const start = Math.max(1, pageNum.value - 2);
-  const end = Math.min(totalPages.value, pageNum.value + 2);
-
-  for (let i = start; i <= end; i++) {
-    pages.push(i);
-  }
-  return pages;
 });
 
 const handleSort = (option) => {
@@ -217,36 +188,7 @@ const handleSort = (option) => {
     v-if="moviesData.length > 0"
     class="flex justify-center items-center gap-4 py-8"
   >
-    <Icon
-      icon="dashicons:arrow-left"
-      class="w-10 h-10 bg-primary hover:bg-hoverPrimary text-white flex justify-center items-center text-xl rounded-full"
-      :class="{
-        'cursor-not-allowed': pageNum === 1,
-        'cursor-pointer': pageNum > 1,
-      }"
-      @click="prevPage"
-    />
-    <div
-      v-for="page in pageNumRender"
-      :key="page"
-      class="w-10 h-10 flex justify-center items-center bg-primary hover:bg-hoverPrimary text-white text-xl cursor-pointer rounded-full"
-      :class="{
-        'bg-primary': page !== pageNum,
-        'bg-hoverPrimary scale-125': page === pageNum,
-      }"
-      @click="goToPage(page)"
-    >
-      {{ page }}
-    </div>
-    <Icon
-      icon="dashicons:arrow-right"
-      @click="nextPage"
-      class="w-10 h-10 bg-primary hover:bg-hoverPrimary text-white flex justify-center items-center text-xl rounded-full"
-      :class="{
-        'cursor-not-allowed': pageNum === totalPages,
-        'cursor-pointer': pageNum < totalPages,
-      }"
-    />
+    <Pagination v-model:pageNum="pageNum" :totalPages="totalPages" />
   </div>
   <div
     v-if="loading"

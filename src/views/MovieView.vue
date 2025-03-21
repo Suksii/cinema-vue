@@ -2,7 +2,6 @@
 import { request } from "@/api";
 import { useFunctionsStore } from "@/store/functionsStore";
 import { Icon } from "@iconify/vue";
-import { data } from "autoprefixer";
 import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 
