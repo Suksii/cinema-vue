@@ -15,15 +15,17 @@ const router = useRouter();
 
 const prevPage = () => {
   if (props.pageNum !== 1) {
-    emit("update:pageNum", props.pageNum - 1);
-    router.push({ query: { ...route.query, page: props.pageNum } });
-  }
+    const newPage = props.pageNum - 1;
+    emit("update:pageNum", newPage);
+    router.push({ query: { ...route.query, page: newPage } });
+  } else return;
 };
 const nextPage = () => {
   if (props.pageNum !== props.totalPages) {
-    emit("update:pageNum", props.pageNum + 1);
-    router.push({ query: { ...route.query, page: props.pageNum } });
-  }
+    const newPage = props.pageNum + 1;
+    emit("update:pageNum", newPage);
+    router.push({ query: { ...route.query, page: newPage } });
+  } else return;
 };
 
 const goToPage = (selectedPage) => {

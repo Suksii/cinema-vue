@@ -50,8 +50,8 @@ const handleSort = (option) => {
   router.push({
     query: {
       ...route.query,
-      page: props.pageNum,
-      sort_by: props.selectedSort,
+      page: 1,
+      sort_by: isAsc.value ? option.asc : option.desc,
     },
   });
 };
