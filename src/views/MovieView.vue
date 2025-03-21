@@ -14,8 +14,6 @@ const isClicked = ref(false);
 const route = useRoute();
 const { voteAverage } = useFunctionsStore();
 
-console.log(voteAverage.value);
-
 const id = route.params.id;
 
 watchEffect(async () => {
@@ -48,9 +46,9 @@ watchEffect(async () => {
       (actor) =>
         actor.known_for_department === "Acting" &&
         !actor.character.includes("(uncredited)") &&
-        actor.popularity > 0.04
+        actor.popularity > 0.02
     );
-    console.log(actorsData.value.length);
+    console.log(actorsData.value);
   } catch (err) {
     console.error(err);
   }
@@ -189,15 +187,22 @@ const goToTrailer = (key) => {
             </p>
             <p v-else>--</p>
           </div>
-          <div class="py-4">
+          <div class="py-4 flex flex-col gap-1">
             <h3 class="text-gray-200 text-sm italic uppercase">Actors</h3>
             <div
               v-if="actorsData.length > 0"
-              class="flex text-lg"
+              class="flex text-lg items-center gap-4"
               v-for="actor of actorsData"
               :key="actor.id"
             >
-              {{ actor.name }}
+              <img
+                :src="`https://image.tmdb.org/t/p/w200/${actor.profile_path}`"
+                class="w-12 h-12 rounded-full object-cover"
+              />
+              <p>
+                {{ actor.name }} <span class="italic text-sm">as</span>
+                {{ actor.character }}
+              </p>
             </div>
             <p v-else>--</p>
           </div>

@@ -15,7 +15,6 @@ const searchInput = ref("");
 const debouncedInput = useDebounce(searchInput, 2000);
 
 watchEffect(() => {
-  console.log(route.path);
   if (route.path !== "/movies") {
     searchInput.value = "";
   }
