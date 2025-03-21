@@ -69,6 +69,7 @@ watchEffect(() => {
 <template>
   <div class="relative w-[90%] md:w-[70%] mx-auto pt-40 md:pt-22">
     <SortSection
+      v-if="!searchQuery.length"
       v-model:selectedSort="selectedSort"
       v-model:pageNum="pageNum"
     />

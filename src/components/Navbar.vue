@@ -1,6 +1,6 @@
 <script setup>
 import { Icon } from "@iconify/vue";
-import { ref, watch } from "vue";
+import { ref, watch, watchEffect } from "vue";
 import GenresModal from "./GenresModal.vue";
 import { useSearchStore } from "@/store/searchStoreByName";
 import { useDebounce } from "@/composables/useDebounce";
@@ -8,11 +8,18 @@ import { useRoute, useRouter } from "vue-router";
 
 const genresShown = ref(false);
 
+const route = useRoute();
+const router = useRouter();
 const searchStore = useSearchStore();
 const searchInput = ref("");
 const debouncedInput = useDebounce(searchInput, 2000);
-const route = useRoute();
-const router = useRouter();
+
+watchEffect(() => {
+  console.log(route.path);
+  if (route.path !== "/movies") {
+    searchInput.value = "";
+  }
+});
 
 watch(debouncedInput, (newQuery) => {
   if (route.name !== "movies") router.push("/movies");
