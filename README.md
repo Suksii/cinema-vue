@@ -3,6 +3,10 @@
 ## About
 Cinema App is a web project developed in Vue, using TMDB API.
 
+## Technical Details
+- **Technologies Used:** Vue, JavaScript
+- **State Managment:** Pinia
+
 ## Installation
 1. Create a folder on the desktop: `mkdir MyProject` 
 2. Navigate to the desktop folder: `cd %USERPROFILE%/Desktop/MyProject`
