@@ -18,7 +18,10 @@ Cinema App is a web project developed in Vue, using TMDB API.
 |---|---|
 | ![Movies Page - pages](https://github.com/user-attachments/assets/ffabdeaa-2e2a-488a-b1fe-970f75d45c38) | ![Movies Page genres](https://github.com/user-attachments/assets/ba954e4a-b0db-4848-9220-679d6b85575d) |
 
+### Single Movie Page
 
+| ![Movie Page #1](https://github.com/user-attachments/assets/4f3e3f82-2043-4928-95f2-d404c59d17f8) | ![Movie Page #2](https://github.com/user-attachments/assets/f712ebec-cefa-4d14-a4f0-3c3fe8e65ea7) |
+|---|---|
 
 ## Installation
 1. Create a folder on the desktop: `mkdir MyProject` 
