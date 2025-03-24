@@ -31,6 +31,7 @@ const handleClick = (genre) => {
       :key="genre.id"
       @click="handleClick(genre.id)"
       class="text-white px-6 py-2 w-[180px] cursor-pointer hover:bg-primary/80 duration-200 rounded-sm"
+      :class="{ 'bg-primary/80': store.selectedGenre === genre.id }"
     >
       {{ genre.name }}
     </div>

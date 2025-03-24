@@ -63,7 +63,7 @@ watch(debouncedInput, (newQuery) => {
           <div
             class="absolute top-6 left-1/2 -translate-x-1/2 text-white p-4 rounded-md w-max duration-300"
             :class="{
-              'opacity-0 -translate-full': !genresShown,
+              '-translate-y-[110%]': !genresShown,
               'opacity-100': genresShown,
             }"
           >

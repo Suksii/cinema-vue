@@ -46,7 +46,7 @@ watchEffect(async () => {
       (actor) =>
         actor.known_for_department === "Acting" &&
         !actor.character.includes("(uncredited)") &&
-        actor.popularity > 0.02
+        actor.popularity > 0.5
     );
     console.log(actorsData.value);
   } catch (err) {
